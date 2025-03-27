@@ -113,10 +113,10 @@
                     <td class="py-3 px-4 border">{{info.region}}</td>
                     <td class="fixed-td py-3 px-8 border">{{info.code_site}}</td>
                     <td class="py-3 px-12 border">{{info.nom_site}}</td>
-                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'demandeur')">
+                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'Demandeur')">
                         {{info.demandeur}}
                       </td>
-                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'config_radio')">
+                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'longitude')">
                         {{info.longitude}}
                       </td>
                     <td class="py-3 px-8 border">{{info.latitude}}</td>
@@ -187,32 +187,33 @@
             Suivant »
         </button>
     </div>
-    <div *ngIf="isPopupVisible" id="edit-popup" class="popup">
-        <div class="popup-content">
-          <h2 id="popup-title">Modifier le champ</h2>
+
+    <div *ngIf="isPopupVisible" id="edit-popup" class="fixed inset-0 bg-white-300 bg-opacity-50 flex justify-center items-center z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96">
+          <h2 id="popup-title" class="text-2xl font-semibold text-center mb-4">Modifier le champ</h2>
       
-          <div *ngIf="currentBaseSelect">
-            <!-- Sélecteur pour choisir la valeur parmi les options -->
-            <select id="edit-select" [(ngModel)]="currentInputValue">
+          <!-- Si la colonne est un Select, afficher le select -->
+          <div *ngIf="currentBaseSelect && currentOptions.length > 0" class="mb-4">
+            <select id="edit-select" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
               <option *ngFor="let option of currentOptions" [value]="option.nom">
                 {{ option.nom }}
               </option>
             </select>
           </div>
-          
-          <div *ngIf="!currentBaseSelect">
-            <!-- Input pour saisir la nouvelle valeur -->
-            <input type="text" id="edit-input" [(ngModel)]="currentInputValue" />
+      
+          <!-- Si la colonne n'est pas un Select, afficher un input texte -->
+          <div *ngIf="!currentBaseSelect" class="mb-4">
+            <input type="text" id="edit-input" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
       
-          <!-- Affichage d'un message d'erreur en cas d'erreur -->
-          <!-- <div *ngIf="errorMessage" class="error-message">
+          <!-- Message d'erreur -->
+          <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2">
             {{ errorMessage }}
-          </div> -->
+          </div>
       
-          <div class="popup-actions">
-            <button (click)="closePopup()">Fermer</button>
-            <!-- <button (click)="saveChanges()">Sauvegarder</button> -->
+          <div class="popup-actions flex justify-between mt-4">
+            <button (click)="closePopup()" class="bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition">Fermer</button>
+            <button (click)="saveChanges()" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">Sauvegarder</button>
           </div>
         </div>
       </div>

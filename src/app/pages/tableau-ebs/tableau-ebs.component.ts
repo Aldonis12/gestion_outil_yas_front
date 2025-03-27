@@ -23,6 +23,8 @@ export class TableauEbsComponent implements OnInit{
 
   isPopupVisible: boolean = false;
 
+  errorMessage: string | null = null;
+
   constructor(private tebsService: TableauEbsService) {}
 
   ngOnInit(): void {
@@ -83,22 +85,44 @@ export class TableauEbsComponent implements OnInit{
   }
 
   async openPopup(info: any, table: string, column: string) {
+    this.currentOptions = [];
+    this.currentInputValue = '';
+  
     this.currentInfo = info;
     this.currentBaseSelect = column;
-
-    // Appel à la méthode du service pour récupérer les options
-    this.tebsService.loadSelectOptions(column).subscribe(options => {
-      this.currentOptions = options;
+  
+    if (this.isSelectColumn(column)) {
+      this.tebsService.loadSelectOptions(column).subscribe(options => {
+        this.currentOptions = options;
+        this.isPopupVisible = true;
+      });
+    } else {
+      this.currentInputValue = info[column];
       this.isPopupVisible = true;
-    });
+    }
   }
-
+  
+  
+  isSelectColumn(column: string): boolean {
+    const selectColumns = ['Demandeur','config_radio'];  // Liste des colonnes nécessitant un select
+    return selectColumns.includes(column);
+  }
+  
   closePopup() {
     this.isPopupVisible = false;
   }
-
-  // Variables utilisées dans le popup
+  
+  saveChanges(): void {
+    if (!this.currentInputValue) {
+      this.errorMessage = "La valeur ne peut pas être vide.";
+      return;
+    }
+  
+    // Logique pour sauvegarder les changements ici
+  
+    this.closePopup();  // Ferme le popup après sauvegarde
+  }
+  
   currentInputValue: string = '';
   currentOptions: any[] = [];
 }
-
