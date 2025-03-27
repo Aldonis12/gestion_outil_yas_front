@@ -1,0 +1,220 @@
+<div class="bg-gray-50 p-6 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Tableau EBS</h2>
+    <div class="flex justify-end gap-4 mb-6">
+        <button id="importButton" class="bg-teal-600 text-white px-5 py-3 rounded-lg hover:bg-teal-700 transition-all duration-200">Importer</button>
+        <button id="exportButton" class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200">Exporter</button>
+    </div>
+
+    <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
+        <div class="search-bar mb-4 flex items-center justify-between">
+            <input 
+                type="text" 
+                id="search" 
+                class="border border-gray-300 rounded-md p-2 w-64" 
+                [(ngModel)]="searchQuery" 
+                (input)="filterData()" 
+                placeholder="Entrez un code site..."/>
+        </div>
+        <table #ebsTable class="min-w-full border-collapse text-sm">
+            <thead>
+                <tr class="text-white">
+                    <th colspan="17" class="py-3 px-4 border bg-teal-600">Information Site</th>
+                    
+                    <th [attr.colspan]="getRadioColspan()"
+                        [ngClass]="{'bg-blue-600': isRadioVisible, 'bg-blue-300': !isRadioVisible}"
+                        class="py-3 px-4 border toggle-column"
+                        (click)="toggleRadio()">
+                        <span>Radio</span>
+                    </th>
+                
+                    <th [attr.colspan]="getTransColspan()"
+                        [ngClass]="{'bg-teal-700': isTransVisible, 'bg-teal-400': !isTransVisible}"
+                        class="py-3 px-4 border toggle-column"
+                        (click)="toggleTrans()">
+                        <span>Trans</span>
+                    </th>
+                
+                    <th [attr.colspan]="getEnergieColspan()"
+                        [ngClass]="{'bg-blue-600': isEnergieVisible, 'bg-blue-300': !isEnergieVisible}"
+                        class="py-3 px-4 border toggle-column"
+                        (click)="toggleEnergie()">
+                        <span>Énergie</span>
+                    </th>
+                </tr>                
+                               
+                <tr class="bg-gray-100 text-gray-700">
+                    <th class="py-3 px-6 border">Type projet</th>
+                    <th class="py-3 px-6 border">Phase TOA</th>
+                    <th class="py-3 px-6 border">Phase YAS</th>
+                    <th class="py-3 px-8 border">Date</th>
+                    <th class="py-3 px-4 border">Version</th>
+                    <th class="py-3 px-4 border">Region</th>
+                    <th class="fixed-td py-3 px-8 border">Code Site</th>
+                    <th class="py-3 px-12 border">Nom Site</th>
+                    <th class="py-3 px-4 border">Demandeur</th>
+                    <th class="py-3 px-8 border">Longitude</th>
+                    <th class="py-3 px-8 border">Latitude</th>
+                    <th class="py-3 px-8 border">Priorite</th>
+                    <th class="py-3 px-8 border">Zone</th>
+                    <th class="py-3 px-10 border">Typologie</th>
+                    <th class="py-3 px-10 border">Infra prévisionnel</th>
+                    <th class="py-3 px-10 border">Potentiel Cohab</th>
+                    <th class="py-3 px-20 border">Scope</th>
+
+                    <ng-container *ngIf="isRadioVisible">
+                        <th class="py-3 px-12 border">Configuration radio</th>
+                        <th class="py-3 px-12 border">Antenne radio</th>
+                        <th class="py-3 px-4 border">HBA</th>
+                        <th class="py-3 px-6 border">Azimut NM</th>
+                        <th class="py-3 px-20 border">RRU 900/800</th>
+                        <th class="py-3 px-20 border">RRU 1800/2100</th>
+                        <th class="py-3 px-20 border">RRU 2600</th>
+                        <th class="py-3 px-20 border">RBS Existant</th>
+                        <th class="py-3 px-20 border">Action RBS</th>
+                        <th class="py-3 px-8 border">Nombre Mat</th>
+                        <th class="py-3 px-8 border">Nombre Puissance</th>
+                        <th class="py-3 px-20 border">Action / Commentaire RADIO</th>
+                    </ng-container>
+
+                    <ng-container *ngIf="isTransVisible">
+                        <th class="py-3 px-10 border">Design Trans</th>
+                        <th class="py-3 px-12 border">Config Trans</th>
+                        <th class="py-3 px-4 border">Frequence</th>
+                        <th class="py-3 px-4 border">Dimension Ant. Trans</th>
+                        <th class="py-3 px-4 border">Azimut Site Main</th>
+                        <th class="py-3 px-6 border">HMA Site Main</th>
+                        <th class="py-3 px-8 border">Code Facing</th>
+                        <th class="py-3 px-8 border">Nom Facing</th>
+                        <th class="py-3 px-7 border">AZIMUT Site Facing</th>
+                        <th class="py-3 px-7 border">HMA Site Facing</th>
+                        <th class="py-3 px-7 border">Elevation VSAT</th>
+                        <th class="py-3 px-7 border">Azimut VSAT</th>
+                        <th class="py-3 px-7 border">Puissance Trans [W]</th>
+                        <th class="py-3 px-20 border">Action / Commentaire TRANS</th>
+                    </ng-container>
+
+                    <ng-container *ngIf="isEnergieVisible">
+                        <th class="py-3 px-10 border">Disjoncteur Trans</th>
+                        <th class="py-3 px-10 border">Disjoncteur Tete DC</th>
+                        <th class="py-3 px-10 border">Disjoncteur Tete DC - TRANS</th>
+                        <th class="py-3 px-10 border">NRJ Après Projet [W DC]</th>
+                        <th class="py-3 px-20 border">Action / Commentaire NRJ</th>
+                    </ng-container>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let info of filteredData" class="bg-gray-50 text-gray-800">
+                    <td class="py-3 px-6 border">{{info.type_projet}}</td>
+                    <td class="py-3 px-6 border">{{info.phase_toa}}</td>
+                    <td class="py-3 px-6 border">{{info.phase_yas}}</td>
+                    <td class="py-3 px-8 border">{{info.date}}</td>
+                    <td class="py-3 px-4 border">{{info.version}}</td>
+                    <td class="py-3 px-4 border">{{info.region}}</td>
+                    <td class="fixed-td py-3 px-8 border">{{info.code_site}}</td>
+                    <td class="py-3 px-12 border">{{info.nom_site}}</td>
+                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'demandeur')">
+                        {{info.demandeur}}
+                      </td>
+                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'config_radio')">
+                        {{info.longitude}}
+                      </td>
+                    <td class="py-3 px-8 border">{{info.latitude}}</td>
+                    <td class="py-3 px-8 border">{{info.priorite}}</td>
+                    <td class="py-3 px-8 border">{{info.zone}}</td>
+                    <td class="py-3 px-10 border">{{info.typologie}}</td>
+                    <td class="py-3 px-10 border">{{info.infra_prev}}</td>
+                    <td class="py-3 px-10 border">{{info.potentiel_cohab}}</td>
+                    <td class="py-3 px-20 border">{{info.Scope}}</td>
+
+                    <ng-container *ngIf="isRadioVisible">
+                        <td class="py-3 px-12 border">{{info.config_radio}}</td>
+                        <td class="py-3 px-12 border">{{info.antenne_radio}}</td>
+                        <td class="py-3 px-4 border">{{info.hba}}</td>
+                        <td class="py-3 px-6 border">{{info.azimut_nm}}</td>
+                        <td class="py-3 px-20 border">{{info.rru900_800}}</td>
+                        <td class="py-3 px-20 border">{{info.rru1800}}</td>
+                        <td class="py-3 px-20 border">{{info.rru2600}}</td>
+                        <td class="py-3 px-20 border">{{info.rbs_existant}}</td>
+                        <td class="py-3 px-20 border">{{info.action_rbs}}</td>
+                        <td class="py-3 px-8 border">{{info.nombre_mat}}</td>
+                        <td class="py-3 px-8 border">{{info.puissance_radio}}</td>
+                        <td class="py-3 px-20 border">{{info.commentaire_radio}}</td>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="isTransVisible">
+                        <td class="py-3 px-10 border">{{info.design_trans}}</td>
+                        <td class="py-3 px-12 border">{{info.config_trans}}</td>
+                        <td class="py-3 px-4 border">{{info.frequence}}</td>
+                        <td class="py-3 px-4 border">{{info.dimension_ant_trans}}</td>
+                        <td class="py-3 px-4 border">{{info.azimut_site_main}}</td>
+                        <td class="py-3 px-6 border">{{info.hma_site_main}}</td>
+                        <td class="py-3 px-8 border">{{info.code_facing}}</td>
+                        <td class="py-3 px-8 border">{{info.nom_facing}}</td>
+                        <td class="py-3 px-7 border">{{info.azimut_site_facing}}</td>
+                        <td class="py-3 px-7 border">{{info.hma_site_facing}}</td>
+                        <td class="py-3 px-7 border">{{info.elevation_vsat}}</td>
+                        <td class="py-3 px-7 border">{{info.azimut_vsat}}</td>
+                        <td class="py-3 px-7 border">{{info.puissance_trans}}</td>
+                        <td class="py-3 px-20 border">{{info.commentaire_trans}}</td>
+                    </ng-container>
+                    
+                    <ng-container *ngIf="isEnergieVisible">
+                        <td class="py-3 px-10 border">{{info.disjoncteur_trans}}</td>
+                        <td class="py-3 px-10 border">{{info.disjoncteur_tete_dc}}</td>
+                        <td class="py-3 px-10 border">{{info.disjoncteur_tete_dc_trans}}</td>
+                        <td class="py-3 px-10 border">{{info.nrj_after_project}}</td>
+                        <td class="py-3 px-20 border">{{info.commentaire_energie}}</td>
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="pagination">
+        <button (click)="changePage(currentPage - 1)" 
+                [disabled]="currentPage === 1" 
+                class="pagination-button">
+            « Précédent
+        </button>
+    
+        <span class="pagination-info">
+            <strong>{{ currentPage }}</strong> / <strong>{{ totalPages }}</strong>
+        </span>
+    
+        <button (click)="changePage(currentPage + 1)" 
+                [disabled]="currentPage === totalPages" 
+                class="pagination-button">
+            Suivant »
+        </button>
+    </div>
+    <div *ngIf="isPopupVisible" id="edit-popup" class="popup">
+        <div class="popup-content">
+          <h2 id="popup-title">Modifier le champ</h2>
+      
+          <div *ngIf="currentBaseSelect">
+            <!-- Sélecteur pour choisir la valeur parmi les options -->
+            <select id="edit-select" [(ngModel)]="currentInputValue">
+              <option *ngFor="let option of currentOptions" [value]="option.nom">
+                {{ option.nom }}
+              </option>
+            </select>
+          </div>
+          
+          <div *ngIf="!currentBaseSelect">
+            <!-- Input pour saisir la nouvelle valeur -->
+            <input type="text" id="edit-input" [(ngModel)]="currentInputValue" />
+          </div>
+      
+          <!-- Affichage d'un message d'erreur en cas d'erreur -->
+          <!-- <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div> -->
+      
+          <div class="popup-actions">
+            <button (click)="closePopup()">Fermer</button>
+            <!-- <button (click)="saveChanges()">Sauvegarder</button> -->
+          </div>
+        </div>
+      </div>
+      
+</div>

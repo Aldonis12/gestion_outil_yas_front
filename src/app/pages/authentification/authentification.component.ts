@@ -16,6 +16,7 @@ export class AuthentificationComponent {
   loginData = { email: '', password: '' };
   registerData = { name: '', email: '' };
   forgotPasswordData = { email: '' };
+  errorMessage: string = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -24,17 +25,30 @@ export class AuthentificationComponent {
   }
 
   submitLogin() {
-    // Logique pour soumettre le formulaire de connexion
-    console.log(this.loginData);
+    alert(this.loginData.email);
+    alert(this.loginData.password);
+    this.authService.login(this.loginData.email, this.loginData.password).subscribe(
+      (response) => {
+        if (response.token) {
+          // this.authService.saveToken(response.token);
+          // this.router.navigate(['/dashboard']);
+          alert(response.token);
+        } else {
+          this.errorMessage = 'Token non trouvé dans la réponse.';
+          alert(this.errorMessage);
+        }
+      },
+      (error) => {
+        this.errorMessage = 'Email ou mot de passe incorrect.';
+      }
+    );
   }
 
   submitRegistration() {
-    // Logique pour soumettre le formulaire d'inscription
     console.log(this.registerData);
   }
 
   submitForgotPassword() {
-    // Logique pour soumettre la réinitialisation du mot de passe
     console.log(this.forgotPasswordData);
   }
 }

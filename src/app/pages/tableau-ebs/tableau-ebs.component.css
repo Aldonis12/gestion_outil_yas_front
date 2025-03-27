@@ -1,0 +1,51 @@
+/* Fixer les colonnes */
+.fixed-td {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: white; 
+    z-index: 10;
+  }
+
+  .toggle-column {
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+.toggle-column:hover {
+    background: rgba(161, 160, 160, 0.2);
+}
+.hidden-column {
+    display: none;
+}
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.pagination-button {
+    background-color: #2563EB;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pagination-button:hover {
+    background-color: #0056b3;
+}
+
+.pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
