@@ -122,49 +122,49 @@
                     <td class="py-3 px-8 border">{{info.latitude}}</td>
                     <td class="py-3 px-8 border">{{info.priorite}}</td>
                     <td class="py-3 px-8 border">{{info.zone}}</td>
-                    <td class="py-3 px-10 border">{{info.typologie}}</td>
-                    <td class="py-3 px-10 border">{{info.infra_prev}}</td>
-                    <td class="py-3 px-10 border">{{info.potentiel_cohab}}</td>
-                    <td class="py-3 px-20 border">{{info.Scope}}</td>
+                    <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'typologie')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-typologie'] || 'Survolez pour voir l\'historique'">{{ info.typologie }}</td>
+                    <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'infra_prev')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-infra_prev'] || 'Survolez pour voir l\'historique'">{{info.infra_prev}}</td>
+                    <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'potentiel_cohab')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-potentiel_cohab'] || 'Survolez pour voir l\'historique'">{{info.potentiel_cohab}}</td>
+                    <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'Scope')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-Scope'] || 'Survolez pour voir l\'historique'">{{info.Scope}}</td>
 
                     <ng-container *ngIf="isRadioVisible">
-                        <td class="py-3 px-12 border">{{info.config_radio}}</td>
-                        <td class="py-3 px-12 border">{{info.antenne_radio}}</td>
-                        <td class="py-3 px-4 border">{{info.hba}}</td>
-                        <td class="py-3 px-6 border">{{info.azimut_nm}}</td>
-                        <td class="py-3 px-20 border">{{info.rru900_800}}</td>
-                        <td class="py-3 px-20 border">{{info.rru1800}}</td>
-                        <td class="py-3 px-20 border">{{info.rru2600}}</td>
-                        <td class="py-3 px-20 border">{{info.rbs_existant}}</td>
-                        <td class="py-3 px-20 border">{{info.action_rbs}}</td>
-                        <td class="py-3 px-8 border">{{info.nombre_mat}}</td>
-                        <td class="py-3 px-8 border">{{info.puissance_radio}}</td>
-                        <td class="py-3 px-20 border">{{info.commentaire_radio}}</td>
+                        <td class="py-3 px-12 border" (mouseover)="showHistorique(info.date, info.code_site, 'config_radio')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-config_radio'] || 'Survolez pour voir l\'historique'">{{info.config_radio}}</td>
+                        <td class="py-3 px-12 border" (mouseover)="showHistorique(info.date, info.code_site, 'antenne_radio')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-antenne_radio'] || 'Survolez pour voir l\'historique'">{{info.antenne_radio}}</td>
+                        <td class="py-3 px-4 border" (mouseover)="showHistorique(info.date, info.code_site, 'hba')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-hba'] || 'Survolez pour voir l\'historique'">{{info.hba}}</td>
+                        <td class="py-3 px-6 border" (mouseover)="showHistorique(info.date, info.code_site, 'azimut_nm')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-azimut_nm'] || 'Survolez pour voir l\'historique'">{{info.azimut_nm}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'rru900_800')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-rru900_800'] || 'Survolez pour voir l\'historique'">{{info.rru900_800}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'rru1800')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-rru1800'] || 'Survolez pour voir l\'historique'">{{info.rru1800}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'rru2600')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-rru2600'] || 'Survolez pour voir l\'historique'">{{info.rru2600}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'rbs_existant')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-rbs_existant'] || 'Survolez pour voir l\'historique'">{{info.rbs_existant}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'action_rbs')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-action_rbs'] || 'Survolez pour voir l\'historique'">{{info.action_rbs}}</td>
+                        <td class="py-3 px-8 border" (mouseover)="showHistorique(info.date, info.code_site, 'nombre_mat')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-nombre_mat'] || 'Survolez pour voir l\'historique'">{{info.nombre_mat}}</td>
+                        <td class="py-3 px-8 border" (mouseover)="showHistorique(info.date, info.code_site, 'puissance_radio')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-puissance_radio'] || 'Survolez pour voir l\'historique'">{{info.puissance_radio}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'commentaire_radio')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-commentaire_radio'] || 'Survolez pour voir l\'historique'">{{info.commentaire_radio}}</td>
                     </ng-container>
                     
                     <ng-container *ngIf="isTransVisible">
-                        <td class="py-3 px-10 border">{{info.design_trans}}</td>
-                        <td class="py-3 px-12 border">{{info.config_trans}}</td>
-                        <td class="py-3 px-4 border">{{info.frequence}}</td>
-                        <td class="py-3 px-4 border">{{info.dimension_ant_trans}}</td>
-                        <td class="py-3 px-4 border">{{info.azimut_site_main}}</td>
-                        <td class="py-3 px-6 border">{{info.hma_site_main}}</td>
-                        <td class="py-3 px-8 border">{{info.code_facing}}</td>
-                        <td class="py-3 px-8 border">{{info.nom_facing}}</td>
-                        <td class="py-3 px-7 border">{{info.azimut_site_facing}}</td>
-                        <td class="py-3 px-7 border">{{info.hma_site_facing}}</td>
-                        <td class="py-3 px-7 border">{{info.elevation_vsat}}</td>
-                        <td class="py-3 px-7 border">{{info.azimut_vsat}}</td>
-                        <td class="py-3 px-7 border">{{info.puissance_trans}}</td>
-                        <td class="py-3 px-20 border">{{info.commentaire_trans}}</td>
+                        <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'design_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-design_trans'] || 'Survolez pour voir l\'historique'">{{info.design_trans}}</td>
+                        <td class="py-3 px-12 border" (mouseover)="showHistorique(info.date, info.code_site, 'config_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-config_trans'] || 'Survolez pour voir l\'historique'">{{info.config_trans}}</td>
+                        <td class="py-3 px-4 border" (mouseover)="showHistorique(info.date, info.code_site, 'frequence')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-frequence'] || 'Survolez pour voir l\'historique'">{{info.frequence}}</td>
+                        <td class="py-3 px-4 border" (mouseover)="showHistorique(info.date, info.code_site, 'dimension_ant_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-dimension_ant_trans'] || 'Survolez pour voir l\'historique'">{{info.dimension_ant_trans}}</td>
+                        <td class="py-3 px-4 border" (mouseover)="showHistorique(info.date, info.code_site, 'azimut_site_main')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-azimut_site_main'] || 'Survolez pour voir l\'historique'">{{info.azimut_site_main}}</td>
+                        <td class="py-3 px-6 border" (mouseover)="showHistorique(info.date, info.code_site, 'hma_site_main')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-hma_site_main'] || 'Survolez pour voir l\'historique'">{{info.hma_site_main}}</td>
+                        <td class="py-3 px-8 border" (mouseover)="showHistorique(info.date, info.code_site, 'code_facing')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-code_facing'] || 'Survolez pour voir l\'historique'">{{info.code_facing}}</td>
+                        <td class="py-3 px-8 border" (mouseover)="showHistorique(info.date, info.code_site, 'nom_facing')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-nom_facing'] || 'Survolez pour voir l\'historique'">{{info.nom_facing}}</td>
+                        <td class="py-3 px-7 border" (mouseover)="showHistorique(info.date, info.code_site, 'azimut_site_facing')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-azimut_site_facing'] || 'Survolez pour voir l\'historique'">{{info.azimut_site_facing}}</td>
+                        <td class="py-3 px-7 border" (mouseover)="showHistorique(info.date, info.code_site, 'hma_site_facing')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-hma_site_facing'] || 'Survolez pour voir l\'historique'">{{info.hma_site_facing}}</td>
+                        <td class="py-3 px-7 border" (mouseover)="showHistorique(info.date, info.code_site, 'elevation_vsat')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-elevation_vsat'] || 'Survolez pour voir l\'historique'">{{info.elevation_vsat}}</td>
+                        <td class="py-3 px-7 border" (mouseover)="showHistorique(info.date, info.code_site, 'azimut_vsat')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-azimut_vsat'] || 'Survolez pour voir l\'historique'">{{info.azimut_vsat}}</td>
+                        <td class="py-3 px-7 border" (mouseover)="showHistorique(info.date, info.code_site, 'puissance_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-puissance_trans'] || 'Survolez pour voir l\'historique'">{{info.puissance_trans}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'commentaire_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-commentaire_trans'] || 'Survolez pour voir l\'historique'">{{info.commentaire_trans}}</td>
                     </ng-container>
                     
                     <ng-container *ngIf="isEnergieVisible">
-                        <td class="py-3 px-10 border">{{info.disjoncteur_trans}}</td>
-                        <td class="py-3 px-10 border">{{info.disjoncteur_tete_dc}}</td>
-                        <td class="py-3 px-10 border">{{info.disjoncteur_tete_dc_trans}}</td>
-                        <td class="py-3 px-10 border">{{info.nrj_after_project}}</td>
-                        <td class="py-3 px-20 border">{{info.commentaire_energie}}</td>
+                        <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'disjoncteur_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-disjoncteur_trans'] || 'Survolez pour voir l\'historique'">{{info.disjoncteur_trans}}</td>
+                        <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'disjoncteur_tete_dc')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-disjoncteur_tete_dc'] || 'Survolez pour voir l\'historique'">{{info.disjoncteur_tete_dc}}</td>
+                        <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'disjoncteur_tete_dc_trans')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-disjoncteur_tete_dc_trans'] || 'Survolez pour voir l\'historique'">{{info.disjoncteur_tete_dc_trans}}</td>
+                        <td class="py-3 px-10 border" (mouseover)="showHistorique(info.date, info.code_site, 'nrj_after_project')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-nrj_after_project'] || 'Survolez pour voir l\'historique'">{{info.nrj_after_project}}</td>
+                        <td class="py-3 px-20 border" (mouseover)="showHistorique(info.date, info.code_site, 'commentaire_energie')" [title]="historiqueTooltips[info.date + '-' + info.code_site + '-commentaire_energie'] || 'Survolez pour voir l\'historique'">{{info.commentaire_energie}}</td>
                     </ng-container>
                 </tr>
             </tbody>

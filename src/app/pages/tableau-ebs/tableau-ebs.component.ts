@@ -150,7 +150,6 @@ export class TableauEbsComponent implements OnInit{
         this.closePopup();
       } else {
         throw new Error("Réponse vide ou non valide.");
-        alert("Erreur lors de la modification.");
       }
     } catch (error) {
       console.error("Erreur API :", error);
@@ -160,4 +159,31 @@ export class TableauEbsComponent implements OnInit{
   
   currentInputValue: string = '';
   currentOptions: any[] = [];
+  historiqueTooltips: { [key: string]: string } = {};
+
+  showHistorique(date: string, codeSite: string, column: string): void {
+    const key = `${date}-${codeSite}-${column}`;
+    
+    this.historiqueTooltips[key] = 'Chargement...';
+
+    this.tebsService.getHistorique(date, codeSite, column).subscribe({
+      next: (historique) => {
+        this.updateTooltip(key, historique);
+      },
+      error: (err) => {
+        console.error("Erreur lors de la récupération de l'historique", err);
+        this.historiqueTooltips[key] = 'Erreur';
+      }
+    });
+  }
+
+  updateTooltip(key: string, historique: any[]): void {
+    if (historique && historique.length > 0) {
+      this.historiqueTooltips[key] = historique
+        .map(item => `${item.valeur} (${item.identifiant} - ${item.inserted_at})`)
+        .join('\n');
+    } else {
+      this.historiqueTooltips[key] = 'Aucun historique';
+    }
+  }
 }
