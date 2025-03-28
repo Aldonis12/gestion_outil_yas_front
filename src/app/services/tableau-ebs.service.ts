@@ -17,4 +17,7 @@ export class TableauEbsService {
   loadSelectOptions(baseName: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/get_options?table=${baseName}`);
   }
+  UpdateEBS(data: { table: string, date: string, code_site: string, column: string, value: string, user: number }): Observable<any[]> {
+    return this.http.post<any[]>(`${this.apiUrl}/update_ebs`, data);
+  }
 }

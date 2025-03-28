@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TableauEbsService } from '../../services/tableau-ebs.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-tableau-ebs',
@@ -23,7 +24,11 @@ export class TableauEbsComponent implements OnInit{
 
   isPopupVisible: boolean = false;
 
+  isValueInput = false;
+
   errorMessage: string | null = null;
+
+  currentTable: string = '';
 
   constructor(private tebsService: TableauEbsService) {}
 
@@ -84,43 +89,73 @@ export class TableauEbsComponent implements OnInit{
     return this.isEnergieVisible ? 5 : 1;
   }
 
-  async openPopup(info: any, table: string, column: string) {
+  async openPopup(info: any, table: string, column: string, type: string) {
     this.currentOptions = [];
     this.currentInputValue = '';
-  
+
     this.currentInfo = info;
     this.currentBaseSelect = column;
-  
-    if (this.isSelectColumn(column)) {
-      this.tebsService.loadSelectOptions(column).subscribe(options => {
-        this.currentOptions = options;
-        this.isPopupVisible = true;
-      });
+
+    this.currentTable = table;
+
+    if (type === 'select') {
+        this.tebsService.loadSelectOptions(column).subscribe(options => {
+            this.currentOptions = options;
+            this.isPopupVisible = true;
+            this.isValueInput = false;
+
+            const actualColumnKey = Object.keys(info).find(key => key.toLowerCase() === column.toLowerCase());
+            if (actualColumnKey) {
+                this.currentInputValue = info[actualColumnKey];
+            } else {
+                alert(`Clé "${column}" non trouvée dans info.`);
+            }
+        });
     } else {
-      this.currentInputValue = info[column];
-      this.isPopupVisible = true;
+        this.currentInputValue = info[column] || '';
+        this.isPopupVisible = true;
+        this.isValueInput = true;
     }
-  }
-  
-  
-  isSelectColumn(column: string): boolean {
-    const selectColumns = ['Demandeur','config_radio'];  // Liste des colonnes nécessitant un select
-    return selectColumns.includes(column);
-  }
+}
   
   closePopup() {
     this.isPopupVisible = false;
   }
   
-  saveChanges(): void {
+  async saveChanges() {
     if (!this.currentInputValue) {
       this.errorMessage = "La valeur ne peut pas être vide.";
       return;
     }
-  
-    // Logique pour sauvegarder les changements ici
-  
-    this.closePopup();  // Ferme le popup après sauvegarde
+
+    const user = 1;
+    const date = this.currentInfo?.date || '';
+    const codeSite = this.currentInfo?.code_site || '';
+    const column = this.currentBaseSelect;
+    const newValue = this.currentInputValue;
+    const table = this.currentTable;
+
+    try {
+      const response = await lastValueFrom(this.tebsService.UpdateEBS({
+        table: table,
+        date: date,
+        code_site: codeSite,
+        column: column,
+        value: newValue,
+        user: user
+      }));
+
+      if (response) {
+        this.currentInfo[column] = newValue;
+        this.closePopup();
+      } else {
+        throw new Error("Réponse vide ou non valide.");
+        alert("Erreur lors de la modification.");
+      }
+    } catch (error) {
+      console.error("Erreur API :", error);
+      this.errorMessage = "Impossible de modifier. Veuillez réessayer ou vérifier votre connexion.";
+    }
   }
   
   currentInputValue: string = '';

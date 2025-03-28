@@ -113,10 +113,10 @@
                     <td class="py-3 px-4 border">{{info.region}}</td>
                     <td class="fixed-td py-3 px-8 border">{{info.code_site}}</td>
                     <td class="py-3 px-12 border">{{info.nom_site}}</td>
-                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'Demandeur')">
+                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'Demandeur','select')">
                         {{info.demandeur}}
                       </td>
-                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'longitude')">
+                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'longitude','text')">
                         {{info.longitude}}
                       </td>
                     <td class="py-3 px-8 border">{{info.latitude}}</td>
@@ -192,21 +192,18 @@
         <div class="bg-white p-6 rounded-lg shadow-lg w-full sm:w-96">
           <h2 id="popup-title" class="text-2xl font-semibold text-center mb-4">Modifier le champ</h2>
       
-          <!-- Si la colonne est un Select, afficher le select -->
           <div *ngIf="currentBaseSelect && currentOptions.length > 0" class="mb-4">
             <select id="edit-select" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <option *ngFor="let option of currentOptions" [value]="option.nom">
-                {{ option.nom }}
-              </option>
-            </select>
+                <option *ngFor="let option of currentOptions" [value]="option.nom">
+                  {{ option.nom }}
+                </option>
+              </select>
           </div>
       
-          <!-- Si la colonne n'est pas un Select, afficher un input texte -->
-          <div *ngIf="!currentBaseSelect" class="mb-4">
+          <div *ngIf="isValueInput" class="mb-4">
             <input type="text" id="edit-input" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
           </div>
       
-          <!-- Message d'erreur -->
           <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2">
             {{ errorMessage }}
           </div>
