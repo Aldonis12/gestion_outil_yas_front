@@ -1,0 +1,473 @@
+<div class="form-container p-4">
+    <!-- Messages de statut -->
+    <div *ngIf="isLoading" class="p-4 mb-4 bg-blue-100 text-blue-700 rounded">
+      Chargement en cours...
+    </div>
+    
+    <div *ngIf="submitSuccess" class="p-4 mb-4 bg-green-100 text-green-700 rounded">
+      Formulaire soumis avec succès!
+    </div>
+    
+    <div *ngIf="submitError" class="p-4 mb-4 bg-red-100 text-red-700 rounded">
+      {{errorMessage}}
+    </div>
+  
+    <form [formGroup]="ebsForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading && formData">
+      <div class="my-6 flex flex-col items-center justify-center space-y-4">
+        <h5 class="text-lg font-semibold text-gray-700">Type du projet</h5>
+  
+        <fieldset class="flex flex-wrap items-center gap-4">
+          <ng-container *ngFor="let item of formData.type_projet">
+            <label class="flex items-center space-x-2 cursor-pointer">
+              <input type="radio" formControlName="formType" [value]="item.nom" class="peer hidden" required>
+              <span class="w-5 h-5 rounded-full border-2 border-gray-400 flex items-center justify-center peer-checked:border-blue-500">
+                <div class="w-3 h-3 rounded-full bg-gray-300 peer-checked:bg-blue-500"></div>
+              </span>
+              <span class="text-gray-700">{{item.nom}}</span>
+            </label>
+          </ng-container>
+        </fieldset>
+        <div *ngIf="f['formType'].touched && f['formType'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+        </div>
+  
+        <span class="text-gray-300 px-2">-- Informations sites --</span>
+      </div>
+  
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Phase TOA</label>
+          <input type="text" formControlName="phasetoa" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['phasetoa'].touched && f['phasetoa'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Phase YAS</label>
+          <input type="text" formControlName="phaseyas" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['phaseyas'].touched && f['phaseyas'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Date</label>
+          <input type="date" formControlName="daty" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['daty'].touched && f['daty'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Version</label>
+          <input type="text" formControlName="version" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['version'].touched && f['version'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Region</label>
+          <select formControlName="region" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.region" [value]="item.code">{{item.code}}</option>
+          </select>
+          <div *ngIf="f['region'].touched && f['region'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Code Site</label>
+          <input type="text" formControlName="codesite" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['codesite'].touched && f['codesite'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Nom du Site</label>
+          <input type="text" formControlName="nomsite" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['nomsite'].touched && f['nomsite'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Demandeur</label>
+          <select formControlName="demandeur" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.demandeur" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['demandeur'].touched && f['demandeur'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Longitude</label>
+          <input type="text" formControlName="longitude" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['longitude'].touched && f['longitude'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Latitude</label>
+          <input type="text" formControlName="latitude" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['latitude'].touched && f['latitude'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Priorite</label>
+          <select formControlName="priorite" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.priorite" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['priorite'].touched && f['priorite'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Zone</label>
+          <select formControlName="zone" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.zone" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['zone'].touched && f['zone'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Typologie</label>
+          <select formControlName="typologie" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.typologie" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['typologie'].touched && f['typologie'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Type de site</label>
+          <select formControlName="type_site" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.type_site" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['type_site'].touched && f['type_site'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Infra Previsionnel</label>
+          <select formControlName="type_infra" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.type_infra" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['type_infra'].touched && f['type_infra'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Potentiel Cohab</label>
+          <select formControlName="potentiel_cohab" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.potentiel_cohab" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['potentiel_cohab'].touched && f['potentiel_cohab'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Scope</label>
+          <select formControlName="scope" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.scope" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['scope'].touched && f['scope'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        
+      </div>
+  
+      <div class="my-6 flex items-center justify-center">
+        <span class="text-gray-300 px-2">-- EBS RADIO --</span>
+      </div>
+  
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Configuration Radio</label>
+          <select formControlName="config_radio" class="w-full px-3 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.config_radio" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['config_radio'].touched && f['config_radio'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+  
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Antenne RADIO</label>
+          <select formControlName="antenne_radio" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.Antenne_radio" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['antenne_radio'].touched && f['antenne_radio'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">HBA</label>
+          <input type="text" formControlName="hba" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['hba'].touched && f['hba'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Azimut NM</label>
+          <input type="text" formControlName="azimut_nm" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['azimut_nm'].touched && f['azimut_nm'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">RRU 900/800</label>
+          <select formControlName="rru900_800" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.RRU900_800" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['rru900_800'].touched && f['rru900_800'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">RRU 1800 / 2100</label>
+          <select formControlName="rru1800" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.RRU1800" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['rru1800'].touched && f['rru1800'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">RRU 2600</label>
+          <select formControlName="rru2600" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.RRU2600" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['rru2600'].touched && f['rru2600'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">RBS Existant</label>
+          <select formControlName="rbs_existant" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.RBS_Existant" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['rbs_existant'].touched && f['rbs_existant'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Action RBS</label>
+          <select formControlName="action_rbs" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+            <option value=""></option>
+            <option *ngFor="let item of formData.Action_RBS" [value]="item.nom">{{item.nom}}</option>
+          </select>
+          <div *ngIf="f['action_rbs'].touched && f['action_rbs'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Nombre de Mat pour installation cassette</label>
+          <input type="text" formControlName="nombre_mat" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['nombre_mat'].touched && f['nombre_mat'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Puissance Radio + Enclosure</label>
+          <input type="text" formControlName="puissance_radio" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['puissance_radio'].touched && f['puissance_radio'].errors" class="text-red-500 text-sm">
+            Ce champ est obligatoire
+          </div>
+        </div>
+        <div>
+          <label class="block text-gray-600 font-medium mb-1">Actions / Commentaires Radio</label>
+          <textarea formControlName="commentaire_radio" class="w-full px-2 py-1 border rounded-lg bg-gray-100 focus:ring-0" rows="1"></textarea>
+        </div>
+      </div>
+
+      <div class="my-6 flex items-center justify-center">
+        <span class="text-gray-300 px-2">-- EBS TRANS --</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Design Trans</label>
+            <select formControlName="design_trans" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <option value=""></option>
+          <option *ngFor="let item of formData.Design_trans" [value]="item.nom">{{item.nom}}</option>
+            </select>
+            <div *ngIf="f['design_trans'].touched && f['design_trans'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Config Trans</label>
+            <select formControlName="config_trans" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <option value=""></option>
+          <option *ngFor="let item of formData.Config_trans" [value]="item.nom">{{item.nom}}</option>
+            </select>
+            <div *ngIf="f['config_trans'].touched && f['config_trans'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Frequence</label>
+            <select formControlName="frequence" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <option value=""></option>
+          <option *ngFor="let item of formData.Frequence" [value]="item.nom">{{item.nom}}</option>
+            </select>
+            <div *ngIf="f['frequence'].touched && f['frequence'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Dimension Antenne Trans</label>
+            <select formControlName="dimension_ant_trans" class="w-full px-4 py-2 border rounded-lg bg-gray-100 focus:ring-0">
+          <option value=""></option>
+          <option *ngFor="let item of formData.Dimension_ant_trans" [value]="item.nom">{{item.nom}}</option>
+            </select>
+            <div *ngIf="f['dimension_ant_trans'].touched && f['dimension_ant_trans'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">AZIMUT Site Main</label>
+            <input type="text" formControlName="azimut_site_main" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['azimut_site_main'].touched && f['azimut_site_main'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">HMA Site Main</label>
+            <input type="text" formControlName="hma_site_main" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['hma_site_main'].touched && f['hma_site_main'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Code Facing</label>
+            <input type="text" formControlName="code_facing" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['code_facing'].touched && f['code_facing'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Nom Facing</label>
+            <input type="text" formControlName="nom_facing" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['nom_facing'].touched && f['nom_facing'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">AZIMUT Site Facing</label>
+            <input type="text" formControlName="azimut_site_facing" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['azimut_site_facing'].touched && f['azimut_site_facing'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">HMA Site Facing</label>
+            <input type="text" formControlName="hma_site_facing" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['hma_site_facing'].touched && f['hma_site_facing'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Elevation VSAT</label>
+            <input type="text" formControlName="elevation_vsat" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['elevation_vsat'].touched && f['elevation_vsat'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">AZIMUT VSAT</label>
+            <input type="text" formControlName="azimut_vsat" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['azimut_vsat'].touched && f['azimut_vsat'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Puissance TRANS [W]</label>
+            <input type="text" formControlName="puissance_trans" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+            <div *ngIf="f['puissance_trans'].touched && f['puissance_trans'].errors" class="text-red-500 text-sm">
+          Ce champ est obligatoire
+            </div>
+        </div>
+        <div>
+            <label class="block text-gray-600 font-medium mb-1">Action / Commentaire TRANS</label>
+            <textarea formControlName="commentaire_trans" class="w-full px-2 py-1 border rounded-lg bg-gray-100 focus:ring-0" rows="1"></textarea>           
+        </div>
+    </div>
+
+    <div class="my-6 flex items-center justify-center">
+      <span class="text-gray-300 px-2">-- EBS ENERGIE --</span>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div>
+          <label class="block text-gray-600 font-medium mb-1">Disjoncteur Trans</label>
+          <input type="text" formControlName="disjoncteur_trans" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['disjoncteur_trans'].touched && f['disjoncteur_trans'].errors" class="text-red-500 text-sm">
+        Ce champ est obligatoire
+          </div>
+      </div>
+      <div>
+          <label class="block text-gray-600 font-medium mb-1">Disjoncteur de tete DC(Main Load)</label>
+          <input type="text" formControlName="disjoncteur_tete_dc" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['disjoncteur_tete_dc'].touched && f['disjoncteur_tete_dc'].errors" class="text-red-500 text-sm">
+        Ce champ est obligatoire
+          </div>
+      </div>
+      <div>
+          <label class="block text-gray-600 font-medium mb-1">Disjoncteur de tete DC TRANS(Priority Load)</label>
+          <input type="text" formControlName="disjoncteur_tete_dc_trans" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['disjoncteur_tete_dc_trans'].touched && f['disjoncteur_tete_dc_trans'].errors" class="text-red-500 text-sm">
+        Ce champ est obligatoire
+          </div>
+      </div>
+      <div>
+          <label class="block text-gray-600 font-medium mb-1">NRJ Après projet [W DC]</label>
+          <input type="text" formControlName="nrj_after_project" class="w-full px-1 py-1 border rounded-lg bg-gray-100 focus:ring-0">
+          <div *ngIf="f['nrj_after_project'].touched && f['nrj_after_project'].errors" class="text-red-500 text-sm">
+        Ce champ est obligatoire
+          </div>
+      </div>
+      <div>
+          <label class="block text-gray-600 font-medium mb-1">Actions/ Commentaires NRJ</label>
+          <textarea formControlName="commentaire_energie" class="w-full px-2 py-1 border rounded-lg bg-gray-100 focus:ring-0" rows="1"></textarea>
+      </div>
+  </div>
+  
+      <div class="mt-6 text-center">
+        <button type="submit" [disabled]="ebsForm.invalid || isLoading"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all disabled:bg-blue-300">
+          {{isLoading ? 'Envoi en cours...' : 'VALIDER'}}
+        </button>
+      </div>
+    </form>
+  </div>

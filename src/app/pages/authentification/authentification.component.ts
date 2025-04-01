@@ -25,10 +25,8 @@ export class AuthentificationComponent {
   }
 
   submitLogin() {
-    alert(this.loginData.email);
-    alert(this.loginData.password);
-    this.authService.login(this.loginData.email, this.loginData.password).subscribe(
-      (response) => {
+    this.authService.login(this.loginData.email, this.loginData.password).subscribe({
+      next: (response) => {
         if (response.token) {
           // this.authService.saveToken(response.token);
           // this.router.navigate(['/dashboard']);
@@ -38,10 +36,11 @@ export class AuthentificationComponent {
           alert(this.errorMessage);
         }
       },
-      (error) => {
+      error: (error) => {
         this.errorMessage = 'Email ou mot de passe incorrect.';
       }
-    );
+    });
+    
   }
 
   submitRegistration() {
