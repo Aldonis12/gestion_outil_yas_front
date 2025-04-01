@@ -3,6 +3,8 @@ import { TableauEbsService } from '../../services/tableau-ebs.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { lastValueFrom } from 'rxjs';
+import { EbsFileUploadPopupComponent } from '../../components/ebs-file-upload-popup/ebs-file-upload-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tableau-ebs',
@@ -12,14 +14,14 @@ import { lastValueFrom } from 'rxjs';
 })
 export class TableauEbsComponent implements OnInit{
 
-  searchQuery: string = '';  // Recherche par Code Site
-  information: any[] = [];  // Les données de la table
+  searchQuery: string = '';
+  information: any[] = [];
   filteredData: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
 
-  currentInfo: any; // Stocke l'élément sur lequel on a double-cliqué
-  currentBaseSelect: string = ''; // Stocke le type de champ pour la sélection (par exemple "demandeur")
+  currentInfo: any;
+  currentBaseSelect: string = '';
   currentColumn: any;
 
   isPopupVisible: boolean = false;
@@ -30,7 +32,7 @@ export class TableauEbsComponent implements OnInit{
 
   currentTable: string = '';
 
-  constructor(private tebsService: TableauEbsService) {}
+  constructor(private tebsService: TableauEbsService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadTableau();
@@ -185,5 +187,11 @@ export class TableauEbsComponent implements OnInit{
     } else {
       this.historiqueTooltips[key] = 'Aucun historique';
     }
+  }
+
+  openFileUploadPopup() {
+    this.dialog.open(EbsFileUploadPopupComponent, {
+      width: '400px',
+    });
   }
 }
