@@ -1,0 +1,168 @@
+
+<h2 class="text-2xl font-bold text-center text-blue-700 mb-6">Les sites validés</h2>
+<div class="max-w-full mx-auto bg-white shadow-xl rounded-xl overflow-hidden flex gap-6">
+    <div class="w-full">
+        <div class="mb-6 flex gap-4">
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-gray-700">En cours</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+                <span class="text-sm font-medium text-gray-700">OK</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                <span class="text-sm font-medium text-gray-700">Not OK</span>
+            </div>
+        </div>
+
+        <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gradient-to-r from-blue-600 to-blue-500">
+                    <tr>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-white tracking-wider">Site</th>
+                        <th class="px-6 py-4 text-left text-sm font-semibold text-white tracking-wider">Candidats</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngIf="loading">
+                        <td colspan="2" class="px-6 py-4 text-center">
+                            <div class="flex justify-center items-center space-x-2">
+                                <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span class="text-gray-500">Chargement en cours...</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!loading && (!sites || sites.length === 0)">
+                        <td colspan="2" class="px-6 py-4 text-center text-gray-500">
+                            <div class="flex flex-col items-center justify-center py-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <p class="mt-2">Aucun site trouvé</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let site of sites" class="hover:bg-blue-50 transition-colors duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a [routerLink]="['/detail_candidat', site.code_site]" class="text-blue-600 hover:text-blue-800 font-medium hover:underline flex items-center">
+                                {{ site.code_site }}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-2">
+                                <ng-container *ngIf="site.candidats.length > 0; else noCandidates">
+                                    <button *ngFor="let candidat of site.candidats; let i = index" 
+                                        [ngClass]="{
+                                            'bg-red-500 hover:bg-red-600': candidat.statut === 1,
+                                            'bg-blue-500 hover:bg-blue-600': candidat.statut === 2,
+                                            'bg-green-500 hover:bg-green-600': candidat.statut !== 1 && candidat.statut !== 2
+                                        }"
+                                        class="text-white px-3 py-1.5 rounded-full shadow-sm text-sm font-medium transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                        (click)="showCandidatDetails(site.id, candidat.nom_candidat)">
+                                        C{{ i + 1 }}
+                                    </button>
+                                </ng-container>
+                                <ng-template #noCandidates>
+                                    <span class="text-gray-400 italic text-sm">Aucun candidat</span>
+                                </ng-template>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="flex items-center justify-between mt-6">
+            <button (click)="prevPage()" 
+                [disabled]="currentPage === 1"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Précédent
+            </button>
+            <span class="text-sm text-gray-700">
+                Page <span class="font-semibold">{{ currentPage }}</span> sur <span class="font-semibold">{{ totalPages }}</span>
+            </span>
+            <button (click)="nextPage()" 
+                [disabled]="currentPage === totalPages"
+                class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                Suivant
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="w-1/3 min-w-[300px] bg-white p-6 shadow-lg rounded-xl border border-gray-100" *ngIf="showDetails">
+        <div class="flex justify-between items-start mb-4">
+          <h2 class="text-xl font-bold text-gray-800">
+            Détails du candidat 
+            <span *ngIf="detailData" class="text-blue-600">({{ detailData.nom_candidat }})</span>
+          </h2>
+          <button (click)="showDetails = false" class="text-gray-400 hover:text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        </div>
+        
+        <div *ngIf="detailData; else errorBlock" class="bg-blue-50 p-4 rounded-lg space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <p class="text-sm text-gray-500">Site</p>
+              <p class="font-medium">{{ detailData.code_site }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Statut</p>
+              <p class="font-medium">
+                <span [ngClass]="{
+                  'text-red-500': detailData.statut === 1,
+                  'text-blue-500': detailData.statut === 2,
+                  'text-green-500': detailData.statut !== 1 && detailData.statut !== 2
+                }">
+                  {{ getStatusText(detailData.statut) }}
+                </span>
+              </p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Coordonnées</p>
+              <p class="font-medium">{{ detailData.longitude }}, {{ detailData.latitude }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Altitude</p>
+              <p class="font-medium">{{ detailData.altitude }}</p>
+            </div>
+          </div>
+          
+          <div *ngIf="detailData.date_survey">
+            <p class="text-sm text-gray-500">Date du survey</p>
+            <p class="font-medium">{{ detailData.date_survey | date }}</p>
+          </div>
+          
+          <div *ngIf="detailData.comment_trans || detailData.comment_radio || detailData.comment_nego">
+            <p class="text-sm text-gray-500 mb-1">Commentaires</p>
+            <div class="space-y-2">
+              <p *ngIf="detailData.comment_trans" class="text-sm"><span class="font-medium">Transport:</span> {{ detailData.comment_trans }}</p>
+              <p *ngIf="detailData.comment_radio" class="text-sm"><span class="font-medium">Radio:</span> {{ detailData.comment_radio }}</p>
+              <p *ngIf="detailData.comment_nego" class="text-sm"><span class="font-medium">Négotiation:</span> {{ detailData.comment_nego }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <ng-template #errorBlock>
+          <div class="bg-red-50 p-4 rounded-lg text-red-600">
+            Erreur de chargement des détails
+          </div>
+        </ng-template>
+      </div>
+</div>
