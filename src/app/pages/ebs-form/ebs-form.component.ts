@@ -4,6 +4,8 @@ import { EbsFormData, EbsFormValues } from '../../models/ebs';
 import { FormEbsService } from '../../services/form-ebs.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { EbsFileUploadPopupComponent } from '../../components/ebs-file-upload-popup/ebs-file-upload-popup.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-ebs-form',
@@ -24,10 +26,17 @@ export class EbsFormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private ebsService: FormEbsService
+    private ebsService: FormEbsService,
+    private dialog: MatDialog
   ) {
     this.ebsForm = this.createForm();
   }
+
+  openFileUploadPopup() {
+      this.dialog.open(EbsFileUploadPopupComponent, {
+        width: '400px',
+      });
+    }
 
   ngOnInit(): void {
     this.loadFormData();

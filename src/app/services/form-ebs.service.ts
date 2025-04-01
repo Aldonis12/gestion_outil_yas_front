@@ -27,15 +27,29 @@ export class FormEbsService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Une erreur inconnue est survenue';
     if (error.error instanceof ErrorEvent) {
-      // Erreur côté client
       errorMessage = `Erreur: ${error.error.message}`;
     } else {
-      // Erreur côté serveur
       errorMessage = `Code d'erreur: ${error.status}\nMessage: ${error.message}`;
       if (error.error?.message) {
         errorMessage = error.error.message;
       }
     }
     return throwError(() => new Error(errorMessage));
+  }
+
+  importFile(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    return this.http.post(`${this.apiUrl}/ebs/import`, formData);
+  }
+
+  isFileTypeAllowed(file: File): boolean {
+    const allowedTypes = [
+      "text/csv", 
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+      "application/vnd.ms-excel"
+    ];
+    return allowedTypes.includes(file.type);
   }
 }
