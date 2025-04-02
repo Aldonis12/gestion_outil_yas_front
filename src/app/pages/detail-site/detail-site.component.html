@@ -1,1 +1,181 @@
-<p>detail-site works!</p>
+<div class="bg-gray-100 p-4">
+    <div class="max-w-full mx-auto bg-white shadow-lg rounded-lg p-6 flex flex-col">
+      <h3 class="font-bold mb-6">Details EBS : {{codeSite}}</h3>
+      
+      <div class="flex gap-4 mb-4">
+        <button [class]="getButtonClass('site')" (click)="toggleTable('site')">
+          Information Site
+        </button>
+        <button [class]="getButtonClass('radio')" (click)="toggleTable('radio')">
+          Radio
+        </button>
+        <button [class]="getButtonClass('trans')" (click)="toggleTable('trans')">
+          Trans
+        </button>
+        <button [class]="getButtonClass('energie')" (click)="toggleTable('energie')">
+          Energie
+        </button>
+      </div>
+  
+      <div *ngIf="isLoading" class="py-4 text-center">
+        <p>Chargement des données...</p>
+      </div>
+  
+      <div class="flex-1">
+        <div *ngIf="activeSection === 'site'" class="mt-4 overflow-auto" style="max-height: 500px;">
+          <div class="overflow-x-auto scrollbar-hidden">
+            <table class="min-w-full border-collapse">
+              <thead class="sticky top-0">
+                <tr class="bg-gray-100">
+                  <th class="border px-4 py-2">Type projet</th>
+                  <th class="border px-4 py-2">Phase TOA</th>
+                  <th class="border px-4 py-2">Phase YAS</th>
+                  <th class="border px-4 py-2">Date</th>
+                  <th class="border px-4 py-2">Version</th>
+                  <th class="border px-4 py-2">Region</th>
+                  <th class="border px-4 py-2">Demandeur</th>
+                  <th class="border px-4 py-2">Longitude</th>
+                  <th class="border px-4 py-2">Latitude</th>
+                  <th class="border px-4 py-2">Priorite</th>
+                  <th class="border px-4 py-2">Zone</th>
+                  <th class="border px-4 py-2">Typologie</th>
+                  <th class="border px-4 py-2">Infra previsionnel</th>
+                  <th class="border px-4 py-2">Potentiel Cohab</th>
+                  <th class="border px-4 py-2">Scope</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
+                  <td class="border px-4 py-2">{{ item.type_projet || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.phase_toa || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.phase_yas || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.date || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.version || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.region || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.demandeur || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.longitude || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.latitude || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.priorite || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.zone || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.typologie || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.infra_prev || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.potentiel_cohab || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.Scope || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        <div *ngIf="activeSection === 'radio'" class="mt-4">
+          <div class="overflow-x-auto scrollbar-hidden">
+            <table class="min-w-full border-collapse">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border px-4 py-2">Configuration radio</th>
+                  <th class="border px-4 py-2">Antenne radio</th>
+                  <th class="border px-4 py-2">HBA</th>
+                  <th class="border px-4 py-2">Azimut NM</th>
+                  <th class="border px-4 py-2">RRU 900/800</th>
+                  <th class="border px-4 py-2">RRU 1800/2100</th>
+                  <th class="border px-4 py-2">RRU 2600</th>
+                  <th class="border px-4 py-2">RBS Existant</th>
+                  <th class="border px-4 py-2">Action RBS</th>
+                  <th class="border px-4 py-2">Nombre Mat</th>
+                  <th class="border px-4 py-2">Nombre Puissance</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
+                  <td class="border px-4 py-2">{{ item.config_radio || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.antenne_radio || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.hba || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.azimut_nm || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.rru900_800 || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.rru1800 || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.rru2600 || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.bs_existant || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.action_rbs || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.nombre_mat || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.puissance_radio || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        <div *ngIf="activeSection === 'trans'" class="mt-4">
+          <div class="overflow-x-auto scrollbar-hidden">
+            <table class="min-w-full border-collapse">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border px-4 py-2">Design Trans</th>
+                  <th class="border px-4 py-2">Config Trans</th>
+                  <th class="border px-4 py-2">Frequence</th>
+                  <th class="border px-4 py-2">Dimension Ant. Trans</th>
+                  <th class="border px-4 py-2">Azimut Site Main</th>
+                  <th class="border px-4 py-2">HMA Site Main</th>
+                  <th class="border px-4 py-2">Code Facing</th>
+                  <th class="border px-4 py-2">Nom Facing</th>
+                  <th class="border px-4 py-2">AZIMUT Site Facing</th>
+                  <th class="border px-4 py-2">HMA Site Facing</th>
+                  <th class="border px-4 py-2">Elevation VSAT</th>
+                  <th class="border px-4 py-2">Azimut VSAT</th>
+                  <th class="border px-4 py-2">Puissance Trans [W]</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
+                  <td class="border px-4 py-2">{{ item.design_trans || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.config_trans || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.frequence || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.dimension_ant_trans || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.azimut_site_main || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.hma_site_main || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.code_facing || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.nom_facing || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.azimut_site_facing || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.hma_site_facing || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.elevation_vsat || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.azimut_vsat || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.puissance_trans || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        <div *ngIf="activeSection === 'energie'" class="mt-4">
+          <div class="overflow-x-auto scrollbar-hidden">
+            <table class="min-w-full border-collapse">
+              <thead>
+                <tr class="bg-gray-100">
+                  <th class="border px-4 py-2">Disjoncteur Trans</th>
+                  <th class="border px-4 py-2">Disjoncteur Tete DC</th>
+                  <th class="border px-4 py-2">Disjoncteur Tete DC - TRANS</th>
+                  <th class="border px-4 py-2">NRJ Après Projet [W DC]</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
+                  <td class="border px-4 py-2">{{ item.disjoncteur_trans || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.disjoncteur_tete_dc || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.disjoncteur_tete_dc_trans || 'N/A' }}</td>
+                  <td class="border px-4 py-2">{{ item.nrj_after_project || 'N/A' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  
+        <div *ngIf="statusMessage" 
+             class="mt-4 text-center p-2 rounded"
+             [class.bg-red-100]="statusMessage.isError"
+             [class.text-red-700]="statusMessage.isError"
+             [class.bg-green-100]="!statusMessage.isError"
+             [class.text-green-700]="!statusMessage.isError">
+          {{statusMessage.text}}
+        </div>
+      </div>
+    </div>
+  </div>

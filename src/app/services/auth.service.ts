@@ -11,7 +11,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private readonly jwtHelper = new JwtHelperService();
   private apiUrl = `${environment.apiUrl}/login`;
   
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
@@ -38,17 +37,20 @@ export class AuthService {
   
   isLoggedIn(): boolean {
     const token = this.getToken();
-    if (token) {
-      return !this.jwtHelper.isTokenExpired(token);
-    }
-    return false;
+    return token != null;
   }
   
   getUser(): any | null {
     const token = this.getToken();
-    if (token && this.isLoggedIn()) {
-      return this.jwtHelper.decodeToken(token);
+    if (token) {
+      const decodedToken = this.decodeBase64(token);
+      return JSON.parse(decodedToken);
     }
     return null;
+  }
+
+  private decodeBase64(base64String: string): string {
+    const decodedString = atob(base64String);
+    return decodedString;
   }
 }

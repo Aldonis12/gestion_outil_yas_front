@@ -28,9 +28,10 @@ export class AuthentificationComponent {
     this.authService.login(this.loginData.email, this.loginData.password).subscribe({
       next: (response) => {
         if (response.token) {
-          // this.authService.saveToken(response.token);
+          this.authService.saveToken(response.token);
           // this.router.navigate(['/dashboard']);
-          alert(response.token);
+          const user = this.authService.getUser();
+        console.log(user);
         } else {
           this.errorMessage = 'Token non trouvé dans la réponse.';
           alert(this.errorMessage);
