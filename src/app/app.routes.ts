@@ -5,16 +5,26 @@ import { EbsFormComponent } from './pages/ebs-form/ebs-form.component';
 import { SiteCandidatComponent } from './pages/site-candidat/site-candidat.component';
 import { DetailSiteComponent } from './pages/detail-site/detail-site.component';
 import { authGuard } from './guards/auth.guard';
+import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
-    {
-        path: '',
-        children: [
-          { path: '', component: AuthentificationComponent },
-          { path: 'tableau-ebs', component: TableauEbsComponent, title: 'EBS', canActivate: [authGuard] },
-          { path: 'ajout-ebs', component: EbsFormComponent, title: 'Ajout EBS' },
-          { path: 'site-validate', component: SiteCandidatComponent, title: 'Site valide' },
-          { path: 'detail_candidat/:code_site', component: DetailSiteComponent, title: 'Detail Site' },
-        ]
-    },
+  {
+    path: '',
+    component: AuthentificationComponent,
+    title: 'Se connecter - LAMBDA'
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    children: [
+      { path: 'tableau-ebs', component: TableauEbsComponent, title: 'EBS', canActivate: [authGuard] },
+      { path: 'ajout-ebs', component: EbsFormComponent, title: 'Ajout EBS', canActivate: [authGuard] },
+      { path: 'site-validate', component: SiteCandidatComponent, title: 'Site valide', canActivate: [authGuard] },
+      { path: 'detail_candidat/:code_site', component: DetailSiteComponent, title: 'Detail Site', canActivate: [authGuard] },
+    ]
+  },
+  { 
+    path: '**', 
+    redirectTo: ''
+  }
 ];
