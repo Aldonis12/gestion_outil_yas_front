@@ -29,19 +29,27 @@ export class AuthentificationComponent {
       next: (response) => {
         if (response.token) {
           this.authService.saveToken(response.token);
-          // this.router.navigate(['/dashboard']);
-          const user = this.authService.getUser();
-        console.log(user);
+          this.router.navigate(['/tableau-ebs']);
         } else {
           this.errorMessage = 'Token non trouvé dans la réponse.';
           alert(this.errorMessage);
         }
       },
       error: (error) => {
-        this.errorMessage = 'Email ou mot de passe incorrect.';
+        if (error.status === 422 && error.error.errors) {
+          let validationErrors = '';
+          for (let field in error.error.errors) {
+            validationErrors += `${error.error.errors[field].join(', ')}\n`;
+          }
+          this.errorMessage = validationErrors;
+        } else if (error.status === 401 && error.error.message) {
+          this.errorMessage = error.error.message;
+        } else {
+          this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+        }
+        alert(this.errorMessage);
       }
     });
-    
   }
 
   submitRegistration() {
