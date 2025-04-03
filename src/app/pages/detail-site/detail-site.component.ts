@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SiteCandidatService } from '../../services/site-candidat.service';
 import { CandidatDetails } from '../../models/candidat-site';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-detail-site',
@@ -32,6 +33,7 @@ export class DetailSiteComponent implements OnInit {
     private http: HttpClient,
     private siteCandidatService: SiteCandidatService,
     private fb: FormBuilder,
+    private toastService: ToastService
   ) {
     this.candidateForm = this.fb.group({
       longitude: ['', Validators.required],
@@ -153,7 +155,6 @@ submitCandidateForm(): void {
   });
 }
 
-
 openFileUploadModal(): void {
   console.log('Ouvrir modal upload fichier');
 }
@@ -197,11 +198,12 @@ submitFiles() {
         } else if (event.body) {
           this.isSubmitting = false;
           this.closeUploadModal();
-          alert();
+          this.toastService.showSuccess('Fichiers uploadés avec succès!');
         }
       },
       error: (error) => {
         console.error('Erreur lors de l\'upload:', error);
+        this.toastService.showError('Erreur lors de l\'upload des fichiers');
         this.isSubmitting = false;
       }
     });
