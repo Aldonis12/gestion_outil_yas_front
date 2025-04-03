@@ -163,7 +163,6 @@ showUploadModal = false;
 selectedFiles: File[] = [];
 isUploadSubmitting = false;
 uploadProgress = 0;
-code_site = '1';
 
 openUploadModal() {
   this.showUploadModal = true;
@@ -185,12 +184,12 @@ removeFile(fileToRemove: File) {
 }
 
 submitFiles() {
-  if (this.selectedFiles.length === 0 || !this.code_site) return;
+  if (this.selectedFiles.length === 0 || !this.codeSite) return;
   
   this.isSubmitting = true;
   this.uploadProgress = 0;
 
-  this.siteCandidatService.uploadFiles(this.selectedFiles, this.code_site)
+  this.siteCandidatService.uploadFiles(this.selectedFiles, this.codeSite)
     .subscribe({
       next: (event: any) => {
         if (event.type === 1 && event.loaded && event.total) {
@@ -207,6 +206,65 @@ submitFiles() {
         this.isSubmitting = false;
       }
     });
+}
+
+showFilesPopup = false;
+sharedFiles: any[] = [];
+isShowFileLoading = false;
+errorMessage = '';
+
+openFilesPopup() {
+  this.showFilesPopup = true;
+  this.loadSharedFiles();
+}
+
+loadSharedFiles() {
+  this.isLoading = true;
+  this.errorMessage = '';
+  
+  this.siteCandidatService.getFileBySite(this.codeSite).subscribe({
+    next: (response) => {
+      this.sharedFiles = response.files || [];
+      this.isLoading = false;
+    },
+    error: (error) => {
+      this.errorMessage = 'Erreur lors du chargement des fichiers';
+      this.isLoading = false;
+      console.error('Error loading files:', error);
+    }
+  });
+}
+
+getFileIcon(extension: string): string {
+  const ext = extension.toLowerCase();
+  
+  const icons: {[key: string]: string} = {
+    'pdf': 'fas fa-file-pdf text-red-500',
+    'doc': 'fas fa-file-word text-blue-500',
+    'docx': 'fas fa-file-word text-blue-500',
+    'xls': 'fas fa-file-excel text-green-600',
+    'xlsx': 'fas fa-file-excel text-green-600',
+    'ppt': 'fas fa-file-powerpoint text-orange-500',
+    'pptx': 'fas fa-file-powerpoint text-orange-500',
+    'jpg': 'fas fa-file-image text-blue-400',
+    'jpeg': 'fas fa-file-image text-blue-400',
+    'png': 'fas fa-file-image text-orange-400',
+    'gif': 'fas fa-file-image text-purple-400',
+    'zip': 'fas fa-file-archive text-gray-500',
+    'rar': 'fas fa-file-archive text-red-400',
+    '7z': 'fas fa-file-archive text-yellow-500',
+    'txt': 'fas fa-file-alt text-gray-400',
+    'csv': 'fas fa-file-csv text-teal-500',
+    'xml': 'fas fa-file-code text-yellow-500',
+    'html': 'fas fa-file-code text-red-400',
+    'js': 'fas fa-file-code text-yellow-300',
+    'json': 'fas fa-file-code text-gray-400',
+    'kmz': 'fas fa-map-marked-alt text-green-500',
+    'kml': 'fas fa-map-marked-alt text-green-400',
+    'default': 'fas fa-file text-gray-500'
+  };
+  
+  return icons[ext] || icons['default'];
 }
 
 }

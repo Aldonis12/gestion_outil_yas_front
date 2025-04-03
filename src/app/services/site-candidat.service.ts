@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +9,7 @@ import { ToastService } from './toast.service';
 export class SiteCandidatService {
   private apiUrl = `${environment.apiUrl}`;
 
-  constructor(private http: HttpClient, private toastService: ToastService) { }
+  constructor(private http: HttpClient) { }
 
   getValidatedSites(page: number = 1): Observable<any> {
     return this.http.get(`${this.apiUrl}/getValidatedSites?page=${page}`);
@@ -47,5 +46,9 @@ export class SiteCandidatService {
     });
 
     return this.http.request(req);
+  }
+
+  getFileBySite(code_site: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/get-files/${code_site}`);
   }
 }

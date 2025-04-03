@@ -1,9 +1,19 @@
 <div class="bg-gradient-to-br from-blue-50 to-gray-50 p-4 min-h-screen">
   <div class="max-w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden">
     <div class="p-6">
-      <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-        Détails EBS du site : {{codeSite}}
-      </h3>
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold text-gray-800 flex items-center">
+          Détails EBS du site : {{codeSite}}
+        </h3>
+        
+        <button (click)="openFilesPopup()" 
+                class="ml-4 flex items-center text-sm text-blue-600 hover:text-blue-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Voir les fichiers partagés
+        </button>
+      </div>
       
       <div class="flex flex-wrap gap-2 mb-6">
         <button [class]="getButtonClass('site')" (click)="toggleTable('site')" class="flex items-center px-4 py-2 rounded-lg transition-all duration-200">
@@ -293,102 +303,100 @@
   </div>
   <br>
   <div class="bg-white rounded-lg  p-6">
-  <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
-      Les candidats :
-    </h3>
-  <div class="max-w-full mx-auto bg-white shadow-xl rounded-xl overflow-hidden flex gap-6">
-  <div class="w-full">
-    <div class="mb-6 flex gap-4">
-        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
-            <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-            <span class="text-sm font-medium text-gray-700">En cours</span>
+    <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">Les candidats :</h3>
+    <div class="max-w-full mx-auto bg-white shadow-xl rounded-xl overflow-hidden flex gap-6">
+      <div class="w-full">
+        <div class="mb-6 flex gap-4">
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-gray-700">En cours</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+                <span class="text-sm font-medium text-gray-700">OK</span>
+            </div>
+            <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+                <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                <span class="text-sm font-medium text-gray-700">Not OK</span>
+            </div>
         </div>
-        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
-            <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
-            <span class="text-sm font-medium text-gray-700">OK</span>
-        </div>
-        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
-            <span class="w-3 h-3 bg-red-500 rounded-full"></span>
-            <span class="text-sm font-medium text-gray-700">Not OK</span>
-        </div>
-    </div>
 
-    <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
-      <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gradient-to-r from-blue-600 to-blue-500">
-              <tr>
-                  <th colspan="2" class="px-6 py-4 text-left text-sm font-semibold text-white tracking-wider">
-                      <div class="flex justify-between items-center">
-                          <span>Candidats</span>
-                          <div class="flex gap-2">
-                              <button (click)="openAddCandidateModal()" 
-                                      class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                  </svg>
-                                Candidat
-                              </button>
-                              <button (click)="openUploadModal()" 
-                                      class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
-                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                  </svg>
-                                Fichier
-                              </button>
+        <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+          <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gradient-to-r from-blue-600 to-blue-500">
+                  <tr>
+                      <th colspan="2" class="px-6 py-4 text-left text-sm font-semibold text-white tracking-wider">
+                          <div class="flex justify-between items-center">
+                              <span>Candidats</span>
+                              <div class="flex gap-2">
+                                  <button (click)="openAddCandidateModal()" 
+                                          class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                      </svg>
+                                    Candidat
+                                  </button>
+                                  <button (click)="openUploadModal()" 
+                                          class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
+                                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                      </svg>
+                                    Fichier
+                                  </button>
+                              </div>
                           </div>
-                      </div>
-                  </th>
-              </tr>
-          </thead>
-          <tbody id="table-body" class="bg-white divide-y divide-gray-200">
-              <tr *ngIf="loading">
-                  <td colspan="2" class="px-6 py-4 text-center">
-                      <div class="flex justify-center items-center space-x-2">
-                          <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          <span class="text-gray-500">Chargement en cours...</span>
-                      </div>
-                  </td>
-              </tr>
-              <tr *ngIf="!loading && (!site || !site.candidats)">
-                  <td colspan="2" class="px-6 py-4 text-center text-gray-500">
-                      <div class="flex flex-col items-center justify-center py-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          <p class="mt-2">Aucun candidat trouvé</p>
-                          
-                      </div>
-                  </td>
-              </tr>
-              <tr *ngIf="site" class="hover:bg-blue-50 transition-colors duration-150">
-                  <td class="px-6 py-4">
-                      <div class="flex flex-wrap gap-2 items-center">
-                          <ng-container *ngIf="site.candidats.length > 0; else noCandidates">
-                              <button *ngFor="let candidat of site.candidats; let i = index" 
-                                  [ngClass]="{
-                                      'bg-red-500 hover:bg-red-600': candidat.statut === 1,
-                                      'bg-blue-500 hover:bg-blue-600': candidat.statut === 2,
-                                      'bg-green-500 hover:bg-green-600': candidat.statut !== 1 && candidat.statut !== 2
-                                  }"
-                                  class="text-white px-3 py-1.5 rounded-full shadow-sm text-sm font-medium transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
-                                  (click)="showCandidatDetails(site.id, candidat.nom_candidat)">
-                                  C{{ i + 1 }}
-                              </button>
-                          </ng-container>
-                          <ng-template #noCandidates>
-                              <span class="text-gray-400 italic text-sm">Aucun candidat</span>
-                          </ng-template>
-                      </div>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
-  </div>
-  </div>
-  </div>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody id="table-body" class="bg-white divide-y divide-gray-200">
+                  <tr *ngIf="loading">
+                      <td colspan="2" class="px-6 py-4 text-center">
+                          <div class="flex justify-center items-center space-x-2">
+                              <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              <span class="text-gray-500">Chargement en cours...</span>
+                          </div>
+                      </td>
+                  </tr>
+                  <tr *ngIf="!loading && (!site || !site.candidats)">
+                      <td colspan="2" class="px-6 py-4 text-center text-gray-500">
+                          <div class="flex flex-col items-center justify-center py-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <p class="mt-2">Aucun candidat trouvé</p>
+                              
+                          </div>
+                      </td>
+                  </tr>
+                  <tr *ngIf="site" class="hover:bg-blue-50 transition-colors duration-150">
+                      <td class="px-6 py-4">
+                          <div class="flex flex-wrap gap-2 items-center">
+                              <ng-container *ngIf="site.candidats.length > 0; else noCandidates">
+                                  <button *ngFor="let candidat of site.candidats; let i = index" 
+                                      [ngClass]="{
+                                          'bg-red-500 hover:bg-red-600': candidat.statut === 1,
+                                          'bg-blue-500 hover:bg-blue-600': candidat.statut === 2,
+                                          'bg-green-500 hover:bg-green-600': candidat.statut !== 1 && candidat.statut !== 2
+                                      }"
+                                      class="text-white px-3 py-1.5 rounded-full shadow-sm text-sm font-medium transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                      (click)="showCandidatDetails(site.id, candidat.nom_candidat)">
+                                      C{{ i + 1 }}
+                                  </button>
+                              </ng-container>
+                              <ng-template #noCandidates>
+                                  <span class="text-gray-400 italic text-sm">Aucun candidat</span>
+                              </ng-template>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -489,17 +497,6 @@
 
     <form (ngSubmit)="submitFiles()" class="p-6 pt-4 space-y-5">
       <div class="space-y-5">
-        <!-- Champ code_site -->
-        <div>
-          <label for="code_site" class="block text-sm font-medium text-gray-700 mb-1">Code Site</label>
-          <div class="relative rounded-md shadow-sm">
-            <input type="text" [(ngModel)]="code_site" name="code_site" id="code_site"
-                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"
-                   placeholder="Entrez le code site" required>
-          </div>
-        </div>
-
-        <!-- Zone d'upload de fichiers -->
         <div class="flex items-center justify-center w-full">
           <label for="file-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
             <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -514,12 +511,10 @@
           </label>
         </div>
 
-        <!-- Barre de progression -->
         <div *ngIf="isSubmitting" class="w-full bg-gray-200 rounded-full h-2.5">
           <div class="bg-blue-600 h-2.5 rounded-full" [style.width.%]="uploadProgress"></div>
         </div>
 
-        <!-- Liste des fichiers sélectionnés -->
         <div *ngIf="selectedFiles && selectedFiles.length > 0" class="mt-4">
           <h4 class="text-sm font-medium text-gray-700 mb-2">Fichiers sélectionnés ({{selectedFiles.length}}):</h4>
           <ul class="divide-y divide-gray-200 border border-gray-200 rounded-md max-h-60 overflow-y-auto">
@@ -548,7 +543,7 @@
                 class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 rounded-md shadow-sm transition-colors">
           Annuler
         </button>
-        <button type="submit" [disabled]="!selectedFiles || selectedFiles.length === 0 || !code_site || isSubmitting"
+        <button type="submit" [disabled]="!selectedFiles || selectedFiles.length === 0 || !codeSite || isSubmitting"
                 class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-sm transition-colors
                        disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]">
           <span *ngIf="!isSubmitting">Uploader</span>
@@ -559,5 +554,57 @@
         </button>
       </div>
     </form>
+  </div>
+</div>
+
+<div *ngIf="showFilesPopup" class="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
+  <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+    <div class="border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+      <h3 class="text-lg font-semibold text-gray-900">
+        Fichiers partagés pour le site: {{codeSite}}
+      </h3>
+      <button (click)="showFilesPopup = false" class="text-gray-400 hover:text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="p-6 overflow-y-auto flex-grow">
+      <div *ngIf="isLoading" class="flex justify-center items-center py-8">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+      </div>
+      
+      <div *ngIf="errorMessage" class="text-center py-8 text-red-500">
+        {{errorMessage}}
+      </div>
+      
+      <div *ngIf="!isLoading && !errorMessage && sharedFiles.length > 0" class="space-y-3">
+        <div *ngFor="let file of sharedFiles" class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <div class="flex items-center min-w-0">
+            <i [class]="getFileIcon(file.extension)" class="text-xl mr-3"></i>
+            <span class="text-gray-700 truncate" [title]="file.name">{{file.name}}</span>
+          </div>
+          <div class="flex items-center space-x-4 ml-4">
+            <span class="text-xs text-gray-500 uppercase">{{file.extension}}</span>
+            <a [href]="file.url" target="_blank" rel="noopener noreferrer" 
+               class="text-blue-600 hover:text-blue-800 text-sm whitespace-nowrap">
+              Télécharger
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div *ngIf="!isLoading && !errorMessage && sharedFiles.length === 0" class="text-center py-8 text-gray-500">
+        Aucun fichier partagé disponible pour ce site.
+      </div>
+    </div>
+    
+    <div class="border-t border-gray-200 px-6 py-3 bg-gray-50 text-right">
+      <button (click)="showFilesPopup = false" 
+              class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors">
+        Fermer
+      </button>
+    </div>
   </div>
 </div>
