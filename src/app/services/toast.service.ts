@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ToastService {
-  private toastSubject = new BehaviorSubject<{message: string, type: 'success' | 'error' | 'info', show: boolean}>({message: '', type: 'info', show: false});
+  private toastSubject = new BehaviorSubject<{message: string, type: 'success' | 'error' | 'info' | 'warning', show: boolean}>({message: '', type: 'info', show: false});
   toastState = this.toastSubject.asObservable();
 
   showSuccess(message: string) {
@@ -15,6 +15,11 @@ export class ToastService {
 
   showError(message: string) {
     this.toastSubject.next({message, type: 'error', show: true});
+    setTimeout(() => this.hideToast(), 3000);
+  }
+
+  showWarning(message: string) {
+    this.toastSubject.next({message, type: 'warning', show: true});
     setTimeout(() => this.hideToast(), 3000);
   }
 

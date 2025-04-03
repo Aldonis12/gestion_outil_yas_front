@@ -10,7 +10,8 @@ import { CommonModule } from '@angular/common';
         class="fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg text-white animate-fade-in-down"
         [class.bg-green-500]="toast.type === 'success'"
         [class.bg-red-500]="toast.type === 'error'"
-        [class.bg-blue-500]="toast.type === 'info'">
+        [class.bg-blue-500]="toast.type === 'info'"
+        [class.bg-yellow-500]="toast.type === 'warning'">
       {{ toast.message }}
     </div>
   `,

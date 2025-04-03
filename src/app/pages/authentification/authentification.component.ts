@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-authentification',
@@ -20,7 +21,7 @@ export class AuthentificationComponent {
 
   isLoginLoading: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private toastService: ToastService) {}
 
   switchTab(tab: string) {
     this.activeTab = tab;
@@ -38,7 +39,7 @@ export class AuthentificationComponent {
           this.router.navigate(['/tableau-ebs']);
         } else {
           this.errorMessage = 'Token non trouvé dans la réponse.';
-          alert(this.errorMessage);
+          this.toastService.showError(this.errorMessage);
         }
       },
       error: (error) => {
@@ -54,7 +55,7 @@ export class AuthentificationComponent {
         } else {
           this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
         }
-        alert(this.errorMessage);
+        this.toastService.showError(this.errorMessage);
       }
     });
   }

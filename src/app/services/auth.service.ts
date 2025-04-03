@@ -3,20 +3,20 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject,Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   private apiUrl = `${environment.apiUrl}/login`;
   
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
-  
-  
+
   login(email: string, mdp: string): Observable<any> {
     return this.http.post<any>(this.apiUrl, { email, mdp });
   }
@@ -33,6 +33,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.isAuthenticatedSubject.next(false);
+    this.router.navigate(['']);
   }
   
   isLoggedIn(): boolean {
