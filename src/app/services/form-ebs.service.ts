@@ -52,4 +52,8 @@ export class FormEbsService {
     ];
     return allowedTypes.includes(file.type);
   }
+
+  exportEBS() {
+    return this.http.get(`${this.apiUrl}/ebs/export`, { responseType: 'blob' });
+  }
 }

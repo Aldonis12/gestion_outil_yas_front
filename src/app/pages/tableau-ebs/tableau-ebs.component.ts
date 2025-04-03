@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { lastValueFrom } from 'rxjs';
 import { EbsFileUploadPopupComponent } from '../../components/ebs-file-upload-popup/ebs-file-upload-popup.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormEbsService } from '../../services/form-ebs.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-tableau-ebs',
@@ -32,7 +34,7 @@ export class TableauEbsComponent implements OnInit{
 
   currentTable: string = '';
 
-  constructor(private tebsService: TableauEbsService, private dialog: MatDialog) {}
+  constructor(private tebsService: TableauEbsService, private dialog: MatDialog, private formEbs: FormEbsService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.loadTableau();
@@ -192,6 +194,31 @@ export class TableauEbsComponent implements OnInit{
   openFileUploadPopup() {
     this.dialog.open(EbsFileUploadPopupComponent, {
       width: '400px',
+    });
+  }
+
+  isExportLoading = false;
+
+  downloadEBS() {
+    this.isExportLoading = true;
+
+    this.formEbs.exportEBS().subscribe({
+      next: (blob: Blob) => {
+        const a = document.createElement('a');
+        const url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = 'EBS.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Erreur lors de l\'export', err);
+        this.toastService.showError('Erreur lors de l\'export');
+      },
+      complete: () => {
+        this.isExportLoading = false;
+        this.toastService.showSuccess('Exportation réussi');
+      }
     });
   }
 }
