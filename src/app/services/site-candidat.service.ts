@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
@@ -29,5 +29,22 @@ export class SiteCandidatService {
 
   addCandidate(candidateData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/addCandidat`, candidateData);
+  }
+
+  uploadFiles(files: File[], code_site: string): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+    
+    files.forEach(file => {
+      formData.append('fichier[]', file, file.name);
+    });
+    
+    formData.append('code_site', code_site);
+
+    const req = new HttpRequest('POST', `${this.apiUrl}/addFiles`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
   }
 }

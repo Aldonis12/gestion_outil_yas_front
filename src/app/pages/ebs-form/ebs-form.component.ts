@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
   selector: 'app-ebs-form',
   imports: [
     CommonModule,
-    ReactiveFormsModule // <-- Ajoutez cette ligne
+    ReactiveFormsModule
   ],
   templateUrl: './ebs-form.component.html',
   styleUrls: ['./ebs-form.component.css']

@@ -120,7 +120,6 @@ showCandidatDetails(siteId: number, candidatNom: string): void {
 }
 
 openAddCandidateModal(): void {
-  // Remplir les champs cachés avec les valeurs du site actuel
   if (this.site) {
     this.candidateForm.patchValue({
       id_info_site: this.site.id,
@@ -145,13 +144,11 @@ submitCandidateForm(): void {
     next: (response) => {
       this.isSubmitting = false;
       this.closeAddCandidateModal();
-      // Rafraîchir les données ou afficher un message de succès
-      this.fetchSite(); // Supposons que c'est votre fonction pour rafraîchir les données
+      this.fetchSite();
     },
     error: (error) => {
       console.error('Erreur lors de l\'ajout du candidat:', error);
       this.isSubmitting = false;
-      // Afficher un message d'erreur
     }
   });
 }
@@ -160,4 +157,54 @@ submitCandidateForm(): void {
 openFileUploadModal(): void {
   console.log('Ouvrir modal upload fichier');
 }
+
+showUploadModal = false;
+selectedFiles: File[] = [];
+isUploadSubmitting = false;
+uploadProgress = 0;
+code_site = '1';
+
+openUploadModal() {
+  this.showUploadModal = true;
+}
+
+closeUploadModal() {
+  this.showUploadModal = false;
+  this.selectedFiles = [];
+  this.uploadProgress = 0;
+}
+
+onFileSelected(event: any) {
+  const files: FileList = event.target.files;
+  this.selectedFiles = Array.from(files);
+}
+
+removeFile(fileToRemove: File) {
+  this.selectedFiles = this.selectedFiles.filter(file => file !== fileToRemove);
+}
+
+submitFiles() {
+  if (this.selectedFiles.length === 0 || !this.code_site) return;
+  
+  this.isSubmitting = true;
+  this.uploadProgress = 0;
+
+  this.siteCandidatService.uploadFiles(this.selectedFiles, this.code_site)
+    .subscribe({
+      next: (event: any) => {
+        if (event.type === 1 && event.loaded && event.total) {
+          this.uploadProgress = Math.round(100 * event.loaded / event.total);
+        } else if (event.body) {
+          this.isSubmitting = false;
+          this.closeUploadModal();
+          alert();
+        }
+      },
+      error: (error) => {
+        console.error('Erreur lors de l\'upload:', error);
+        this.isSubmitting = false;
+      }
+    });
+}
+
 }
