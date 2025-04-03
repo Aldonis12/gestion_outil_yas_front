@@ -49,7 +49,7 @@
                     </tr>
                     <tr *ngFor="let site of sites" class="hover:bg-blue-50 transition-colors duration-150">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a [routerLink]="['/detail_candidat', site.code_site]" class="text-blue-600 hover:text-blue-800 font-medium hover:underline flex items-center">
+                            <a [routerLink]="['/detail_candidat', site.id, site.code_site]" class="text-blue-600 hover:text-blue-800 font-medium hover:underline flex items-center">
                                 {{ site.code_site }}
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />

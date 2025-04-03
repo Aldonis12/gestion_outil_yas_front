@@ -1,66 +1,65 @@
-<div class="bg-gray-100 p-4">
-    <div class="max-w-full mx-auto bg-white shadow-lg rounded-lg p-6 flex flex-col">
-      <h3 class="font-bold mb-6">Details EBS : {{codeSite}}</h3>
+<div class="bg-gradient-to-br from-blue-50 to-gray-50 p-4 min-h-screen">
+  <div class="max-w-full mx-auto bg-white rounded-xl shadow-md overflow-hidden">
+    <div class="p-6">
+      <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+        Détails EBS du site : {{codeSite}}
+      </h3>
       
-      <div class="flex gap-4 mb-4">
-        <button [class]="getButtonClass('site')" (click)="toggleTable('site')">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button [class]="getButtonClass('site')" (click)="toggleTable('site')" class="flex items-center px-4 py-2 rounded-lg transition-all duration-200">
           Information Site
         </button>
-        <button [class]="getButtonClass('radio')" (click)="toggleTable('radio')">
+        <button [class]="getButtonClass('radio')" (click)="toggleTable('radio')" class="flex items-center px-4 py-2 rounded-lg transition-all duration-200">
           Radio
         </button>
-        <button [class]="getButtonClass('trans')" (click)="toggleTable('trans')">
+        <button [class]="getButtonClass('trans')" (click)="toggleTable('trans')" class="flex items-center px-4 py-2 rounded-lg transition-all duration-200">
           Trans
         </button>
-        <button [class]="getButtonClass('energie')" (click)="toggleTable('energie')">
+        <button [class]="getButtonClass('energie')" (click)="toggleTable('energie')" class="flex items-center px-4 py-2 rounded-lg transition-all duration-200">
           Energie
         </button>
-      </div>
-  
-      <div *ngIf="isLoading" class="py-4 text-center">
-        <p>Chargement des données...</p>
-      </div>
+      </div>      
   
       <div class="flex-1">
         <div *ngIf="activeSection === 'site'" class="mt-4 overflow-auto" style="max-height: 500px;">
-          <div class="overflow-x-auto scrollbar-hidden">
-            <table class="min-w-full border-collapse">
-              <thead class="sticky top-0">
-                <tr class="bg-gray-100">
-                  <th class="border px-4 py-2">Type projet</th>
-                  <th class="border px-4 py-2">Phase TOA</th>
-                  <th class="border px-4 py-2">Phase YAS</th>
-                  <th class="border px-4 py-2">Date</th>
-                  <th class="border px-4 py-2">Version</th>
-                  <th class="border px-4 py-2">Region</th>
-                  <th class="border px-4 py-2">Demandeur</th>
-                  <th class="border px-4 py-2">Longitude</th>
-                  <th class="border px-4 py-2">Latitude</th>
-                  <th class="border px-4 py-2">Priorite</th>
-                  <th class="border px-4 py-2">Zone</th>
-                  <th class="border px-4 py-2">Typologie</th>
-                  <th class="border px-4 py-2">Infra previsionnel</th>
-                  <th class="border px-4 py-2">Potentiel Cohab</th>
-                  <th class="border px-4 py-2">Scope</th>
+          <div class="overflow-x-auto rounded-xl shadow-sm border border-gray-200 scrollbar-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50 sticky top-0">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Type projet</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Phase TOA</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Phase YAS</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Date</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Version</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Region</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Demandeur</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Longitude</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Latitude</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Priorite</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Zone</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Typologie</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Infra previsionnel</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Potentiel Cohab</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Scope</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
-                  <td class="border px-4 py-2">{{ item.type_projet || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.phase_toa || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.phase_yas || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.date || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.version || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.region || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.demandeur || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.longitude || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.latitude || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.priorite || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.zone || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.typologie || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.infra_prev || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.potentiel_cohab || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.Scope || 'N/A' }}</td>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of ebsData" class="hover:bg-blue-50 transition-colors duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.type_projet || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.phase_toa || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.phase_yas || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.date || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.version || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.region || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.demandeur || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.longitude || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.latitude || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.priorite || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.zone || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.typologie || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.infra_prev || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.potentiel_cohab || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.Scope || 'N/A' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -68,36 +67,36 @@
         </div>
   
         <div *ngIf="activeSection === 'radio'" class="mt-4">
-          <div class="overflow-x-auto scrollbar-hidden">
-            <table class="min-w-full border-collapse">
-              <thead>
-                <tr class="bg-gray-100">
-                  <th class="border px-4 py-2">Configuration radio</th>
-                  <th class="border px-4 py-2">Antenne radio</th>
-                  <th class="border px-4 py-2">HBA</th>
-                  <th class="border px-4 py-2">Azimut NM</th>
-                  <th class="border px-4 py-2">RRU 900/800</th>
-                  <th class="border px-4 py-2">RRU 1800/2100</th>
-                  <th class="border px-4 py-2">RRU 2600</th>
-                  <th class="border px-4 py-2">RBS Existant</th>
-                  <th class="border px-4 py-2">Action RBS</th>
-                  <th class="border px-4 py-2">Nombre Mat</th>
-                  <th class="border px-4 py-2">Nombre Puissance</th>
+          <div class="overflow-x-auto rounded-xl shadow-sm border border-gray-200 scrollbar-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Configuration radio</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Antenne radio</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">HBA</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Azimut NM</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">RRU 900/800</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">RRU 1800/2100</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">RRU 2600</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">RBS Existant</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Action RBS</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nombre Mat</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nombre Puissance</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
-                  <td class="border px-4 py-2">{{ item.config_radio || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.antenne_radio || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.hba || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.azimut_nm || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.rru900_800 || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.rru1800 || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.rru2600 || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.bs_existant || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.action_rbs || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.nombre_mat || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.puissance_radio || 'N/A' }}</td>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of ebsData" class="hover:bg-blue-50 transition-colors duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.config_radio || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.antenne_radio || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.hba || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.azimut_nm || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.rru900_800 || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.rru1800 || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.rru2600 || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.bs_existant || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.action_rbs || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.nombre_mat || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.puissance_radio || 'N/A' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -105,40 +104,40 @@
         </div>
   
         <div *ngIf="activeSection === 'trans'" class="mt-4">
-          <div class="overflow-x-auto scrollbar-hidden">
-            <table class="min-w-full border-collapse">
-              <thead>
-                <tr class="bg-gray-100">
-                  <th class="border px-4 py-2">Design Trans</th>
-                  <th class="border px-4 py-2">Config Trans</th>
-                  <th class="border px-4 py-2">Frequence</th>
-                  <th class="border px-4 py-2">Dimension Ant. Trans</th>
-                  <th class="border px-4 py-2">Azimut Site Main</th>
-                  <th class="border px-4 py-2">HMA Site Main</th>
-                  <th class="border px-4 py-2">Code Facing</th>
-                  <th class="border px-4 py-2">Nom Facing</th>
-                  <th class="border px-4 py-2">AZIMUT Site Facing</th>
-                  <th class="border px-4 py-2">HMA Site Facing</th>
-                  <th class="border px-4 py-2">Elevation VSAT</th>
-                  <th class="border px-4 py-2">Azimut VSAT</th>
-                  <th class="border px-4 py-2">Puissance Trans [W]</th>
+          <div class="overflow-x-auto rounded-xl shadow-sm border border-gray-200 scrollbar-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Design Trans</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Config Trans</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Frequence</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Dimension Ant. Trans</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Azimut Site Main</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">HMA Site Main</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Code Facing</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nom Facing</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">AZIMUT Site Facing</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">HMA Site Facing</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Elevation VSAT</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Azimut VSAT</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Puissance Trans [W]</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
-                  <td class="border px-4 py-2">{{ item.design_trans || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.config_trans || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.frequence || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.dimension_ant_trans || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.azimut_site_main || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.hma_site_main || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.code_facing || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.nom_facing || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.azimut_site_facing || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.hma_site_facing || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.elevation_vsat || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.azimut_vsat || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.puissance_trans || 'N/A' }}</td>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of ebsData" class="hover:bg-blue-50 transition-colors duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.design_trans || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.config_trans || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.frequence || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.dimension_ant_trans || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.azimut_site_main || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.hma_site_main || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.code_facing || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.nom_facing || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.azimut_site_facing || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.hma_site_facing || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.elevation_vsat || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.azimut_vsat || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.puissance_trans || 'N/A' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -146,36 +145,342 @@
         </div>
   
         <div *ngIf="activeSection === 'energie'" class="mt-4">
-          <div class="overflow-x-auto scrollbar-hidden">
-            <table class="min-w-full border-collapse">
-              <thead>
-                <tr class="bg-gray-100">
-                  <th class="border px-4 py-2">Disjoncteur Trans</th>
-                  <th class="border px-4 py-2">Disjoncteur Tete DC</th>
-                  <th class="border px-4 py-2">Disjoncteur Tete DC - TRANS</th>
-                  <th class="border px-4 py-2">NRJ Après Projet [W DC]</th>
+          <div class="overflow-x-auto rounded-xl shadow-sm border border-gray-200 scrollbar-hidden">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Disjoncteur Trans</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Disjoncteur Tete DC</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Disjoncteur Tete DC - TRANS</th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">NRJ Après Projet [W DC]</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr *ngFor="let item of ebsData" class="hover:bg-gray-50">
-                  <td class="border px-4 py-2">{{ item.disjoncteur_trans || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.disjoncteur_tete_dc || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.disjoncteur_tete_dc_trans || 'N/A' }}</td>
-                  <td class="border px-4 py-2">{{ item.nrj_after_project || 'N/A' }}</td>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of ebsData" class="hover:bg-blue-50 transition-colors duration-150">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.disjoncteur_trans || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.disjoncteur_tete_dc || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.disjoncteur_tete_dc_trans || 'N/A' }}</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ item.nrj_after_project || 'N/A' }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+
+        <div *ngIf="isLoading" class="py-8 text-center">
+          <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mb-2"></div>
+          <p class="text-gray-600">Chargement des données...</p>
+        </div>
   
         <div *ngIf="statusMessage" 
-             class="mt-4 text-center p-2 rounded"
-             [class.bg-red-100]="statusMessage.isError"
+             class="mt-4 p-4 rounded-lg flex items-center"
+             [class.bg-red-50]="statusMessage.isError"
              [class.text-red-700]="statusMessage.isError"
-             [class.bg-green-100]="!statusMessage.isError"
+             [class.bg-green-50]="!statusMessage.isError"
              [class.text-green-700]="!statusMessage.isError">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
           {{statusMessage.text}}
         </div>
       </div>
     </div>
+
+    <div *ngIf="showDetails" class="bg-white rounded-lg shadow-md p-6 mt-6">
+      <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+        Détails candidat :
+      </h3>
+    
+      <div *ngIf="loadingDetails" class="flex justify-center items-center space-x-2 py-4">
+        <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-gray-500">Chargement en cours...</span>
+      </div>
+    
+      <div *ngIf="errorDetails" class="text-red-500 py-4">
+        {{ errorDetails }}
+      </div>
+    
+      <div *ngIf="!loadingDetails && candidatDetails.length > 0" class="overflow-x-auto rounded-xl shadow-sm border border-gray-200 scrollbar-hidden">
+
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50 sticky top-0">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Code Site</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nom Candidat</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Longitude</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Latitude</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Altitude</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Date Survey</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Ing. TRANS</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Ing. RADIO</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Nego. TOA</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-900 uppercase tracking-wider">Validation</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let detail of candidatDetails">
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.code_site }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.nom_candidat }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.longitude }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.latitude }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.altitude }}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ detail.date_survey | date }}</td>
+                
+                <!-- Colonne TRANS
+                <td class="border px-4 py-2" 
+                  [ngStyle]="{
+                  'background-color': detail.validate_trans === 1 ? 'green' : detail.validate_trans === 0 ? 'red' : 'transparent',
+                  'color': detail.validate_trans === null ? 'black' : 'white'
+                  }"
+                  [title]="detail.comment_trans || 'Aucun Commentaire'">
+                  {{ detail.validate_trans === 1 ? 'OK' : detail.validate_trans === 0 ? 'NOT OK' : '--' }}
+                </td>
+                
+                -- Colonne RADIO
+                <td class="border px-4 py-2" 
+                  [ngStyle]="{
+                  'background-color': detail.validate_radio === 1 ? 'green' : detail.validate_radio === 0 ? 'red' : 'transparent',
+                  'color': detail.validate_radio === null ? 'black' : 'white'
+                  }"
+                  [title]="detail.comment_radio || 'Aucun Commentaire'">
+                  {{ detail.validate_radio === 1 ? 'OK' : detail.validate_radio === 0 ? 'NOT OK' : '--' }}
+                </td>
+                
+                -- Colonne NEGO
+                <td class="border px-4 py-2" 
+                  [ngStyle]="{
+                  'background-color': detail.nego_toa === 1 ? 'green' : detail.nego_toa === 0 ? 'red' : 'transparent',
+                  'color': detail.nego_toa === null ? 'black' : 'white'
+                  }"
+                  [title]="detail.comment_nego || 'Aucun Commentaire'">
+                  {{ detail.nego_toa === 1 ? 'OK' : detail.nego_toa === 0 ? 'NOT OK' : '--' }}
+                </td>
+                
+                <td class="border px-4 py-2">
+                <-- Boutons de validation TRANS --
+                <ng-container *ngIf="permissions?.['validate_candidat_dpio_trans'] && detail.validate_trans === null">
+                  <button class="bg-green-500 text-white px-3 py-1 rounded mr-2" 
+                      (click)="validerCandidat(detail, true, 'trans')">OK</button>
+                  <button class="bg-red-500 text-white px-3 py-1 rounded" 
+                      (click)="validerCandidat(detail, false, 'trans')">NOT OK</button>
+                </ng-container>
+                
+                <-- Boutons de validation RADIO --
+                <ng-container *ngIf="permissions?.['validate_candidat_dpio_radio'] && detail.validate_radio === null">
+                  <button class="bg-green-500 text-white px-3 py-1 rounded mr-2" 
+                      (click)="validerCandidat(detail, true, 'radio')">OK</button>
+                  <button class="bg-red-500 text-white px-3 py-1 rounded" 
+                      (click)="validerCandidat(detail, false, 'radio')">NOT OK</button>
+                </ng-container>
+                
+                <-- Boutons de validation NEGO --
+                <ng-container *ngIf="permissions?.['validate_candidat_dpio_toa'] && detail.nego_toa === null">
+                  <button class="bg-green-500 text-white px-3 py-1 rounded mr-2" 
+                      (click)="validerCandidat(detail, true, 'nego')">OK Nego</button>
+                  <button class="bg-red-500 text-white px-3 py-1 rounded" 
+                      (click)="validerCandidat(detail, false, 'nego')">NOT OK</button>
+                </ng-container>
+                </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </div>
+  <br>
+  <div class="bg-white rounded-lg  p-6">
+  <h3 class="text-xl font-bold text-gray-800 mb-6 flex items-center">
+      Les candidats :
+    </h3>
+  <div class="max-w-full mx-auto bg-white shadow-xl rounded-xl overflow-hidden flex gap-6">
+  <div class="w-full">
+    <div class="mb-6 flex gap-4">
+        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+            <span class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="text-sm font-medium text-gray-700">En cours</span>
+        </div>
+        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+            <span class="w-3 h-3 bg-blue-500 rounded-full"></span>
+            <span class="text-sm font-medium text-gray-700">OK</span>
+        </div>
+        <div class="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-full shadow-sm">
+            <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+            <span class="text-sm font-medium text-gray-700">Not OK</span>
+        </div>
+    </div>
+
+    <div class="overflow-hidden rounded-xl border border-gray-100 shadow-sm">
+      <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gradient-to-r from-blue-600 to-blue-500">
+              <tr>
+                  <th colspan="2" class="px-6 py-4 text-left text-sm font-semibold text-white tracking-wider">
+                      <div class="flex justify-between items-center">
+                          <span>Candidats</span>
+                          <div class="flex gap-2">
+                              <button (click)="openAddCandidateModal()" 
+                                      class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                  </svg>
+                                Candidat
+                              </button>
+                              <button (click)="openFileUploadModal()" 
+                                      class="flex items-center gap-1 bg-white/20 hover:bg-white/30 text-white px-3 py-1.5 rounded-full text-sm font-medium transition-all focus:outline-none focus:ring-2 focus:ring-white">
+                                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                  </svg>
+                                Fichier
+                              </button>
+                          </div>
+                      </div>
+                  </th>
+              </tr>
+          </thead>
+          <tbody id="table-body" class="bg-white divide-y divide-gray-200">
+              <tr *ngIf="loading">
+                  <td colspan="2" class="px-6 py-4 text-center">
+                      <div class="flex justify-center items-center space-x-2">
+                          <svg class="animate-spin h-5 w-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <span class="text-gray-500">Chargement en cours...</span>
+                      </div>
+                  </td>
+              </tr>
+              <tr *ngIf="!loading && (!site || !site.candidats)">
+                  <td colspan="2" class="px-6 py-4 text-center text-gray-500">
+                      <div class="flex flex-col items-center justify-center py-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <p class="mt-2">Aucun candidat trouvé</p>
+                          
+                      </div>
+                  </td>
+              </tr>
+              <tr *ngIf="site" class="hover:bg-blue-50 transition-colors duration-150">
+                  <td class="px-6 py-4">
+                      <div class="flex flex-wrap gap-2 items-center">
+                          <ng-container *ngIf="site.candidats.length > 0; else noCandidates">
+                              <button *ngFor="let candidat of site.candidats; let i = index" 
+                                  [ngClass]="{
+                                      'bg-red-500 hover:bg-red-600': candidat.statut === 1,
+                                      'bg-blue-500 hover:bg-blue-600': candidat.statut === 2,
+                                      'bg-green-500 hover:bg-green-600': candidat.statut !== 1 && candidat.statut !== 2
+                                  }"
+                                  class="text-white px-3 py-1.5 rounded-full shadow-sm text-sm font-medium transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                                  (click)="showCandidatDetails(site.id, candidat.nom_candidat)">
+                                  C{{ i + 1 }}
+                              </button>
+                          </ng-container>
+                          <ng-template #noCandidates>
+                              <span class="text-gray-400 italic text-sm">Aucun candidat</span>
+                          </ng-template>
+                      </div>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+  </div>
+  </div>
+  </div>
+  </div>
+</div>
+
+
+<!-- Modal backdrop avec effet flou -->
+<div *ngIf="showAddCandidateModal" class="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4 transition-opacity duration-300">
+  <!-- Modal container avec animation -->
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95"
+       [class]="showAddCandidateModal ? 'scale-100 opacity-100' : 'scale-95 opacity-0'">
+    
+    <!-- Header -->
+    <div class="border-b border-gray-100 p-6 pb-4">
+      <div class="flex justify-between items-center">
+        <h3 class="text-xl font-bold text-gray-900">Nouveau Candidat</h3>
+        <button (click)="closeAddCandidateModal()" 
+                class="text-gray-400 hover:text-gray-500 transition-colors p-1 rounded-full hover:bg-gray-50">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <p class="text-sm text-gray-500 mt-1">Renseignez les coordonnées du nouveau site candidat</p>
+    </div>
+
+    <!-- Form body -->
+    <form [formGroup]="candidateForm" (ngSubmit)="submitCandidateForm()" class="p-6 pt-4 space-y-5">
+      <!-- Input group -->
+      <div class="space-y-5">
+        <!-- Longitude -->
+        <div>
+          <label for="longitude" class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+          <div class="relative rounded-md shadow-sm">
+            <input type="text" formControlName="longitude" id="longitude"
+                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"
+                   placeholder="0.000000" required>
+          </div>
+        </div>
+
+        <!-- Latitude -->
+        <div>
+          <label for="latitude" class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+          <div class="relative rounded-md shadow-sm">
+            <input type="text" formControlName="latitude" id="latitude"
+                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"
+                   placeholder="0.000000" required>
+          </div>
+        </div>
+
+        <!-- Altitude -->
+        <div>
+          <label for="altitude" class="block text-sm font-medium text-gray-700 mb-1">Altitude</label>
+          <div class="relative rounded-md shadow-sm">
+            <input type="text" formControlName="altitude" id="altitude"
+                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"
+                   placeholder="0" required>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <span class="text-gray-500 text-sm">m</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Date Survey -->
+        <div>
+          <label for="date_survey" class="block text-sm font-medium text-gray-700 mb-1">Date du Survey</label>
+          <div class="relative rounded-md shadow-sm">
+            <input type="date" formControlName="date_survey" id="date_survey"
+                   class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2.5 border"
+                   required>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hidden fields -->
+      <input type="hidden" formControlName="id_info_site">
+      <input type="hidden" formControlName="code_site">
+
+      <!-- Footer with submit button -->
+      <div class="flex justify-end space-x-3 pt-2">
+        <button type="button" (click)="closeAddCandidateModal()"
+                class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 border border-gray-300 rounded-md shadow-sm transition-colors">
+          Annuler
+        </button>
+        <button type="submit" [disabled]="candidateForm.invalid || isSubmitting"
+                class="px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md shadow-sm transition-colors
+                       disabled:bg-blue-400 disabled:cursor-not-allowed flex items-center justify-center min-w-[100px]">
+          <span *ngIf="!isSubmitting">Enregistrer</span>
+          <svg *ngIf="isSubmitting" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

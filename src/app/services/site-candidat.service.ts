@@ -18,4 +18,16 @@ export class SiteCandidatService {
   getCandidatDetails(id: number, candidat: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/getDetailSite`, { id, candidat });
   }
+
+  getEBSBySite(code_site: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getEbsBySite/${code_site}`);
+  }
+
+  getCandidatBySite(id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/getOneSite`, { id });
+  }
+
+  addCandidate(candidateData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/addCandidat`, candidateData);
+  }
 }
