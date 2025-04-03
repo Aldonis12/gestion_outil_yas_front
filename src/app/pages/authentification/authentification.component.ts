@@ -18,6 +18,8 @@ export class AuthentificationComponent {
   forgotPasswordData = { email: '' };
   errorMessage: string = '';
 
+  isLoginLoading: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   switchTab(tab: string) {
@@ -25,8 +27,12 @@ export class AuthentificationComponent {
   }
 
   submitLogin() {
+    this.isLoginLoading = true;
+    this.errorMessage = '';
+    
     this.authService.login(this.loginData.email, this.loginData.password).subscribe({
       next: (response) => {
+        this.isLoginLoading = false;
         if (response.token) {
           this.authService.saveToken(response.token);
           this.router.navigate(['/tableau-ebs']);
@@ -36,6 +42,7 @@ export class AuthentificationComponent {
         }
       },
       error: (error) => {
+        this.isLoginLoading = false;
         if (error.status === 422 && error.error.errors) {
           let validationErrors = '';
           for (let field in error.error.errors) {
