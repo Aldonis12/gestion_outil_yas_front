@@ -1,22 +1,26 @@
 <div class="bg-gray-50 p-6 rounded-lg shadow-lg">
-    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Tableau EBS</h2>
-    <div class="flex justify-end gap-4 mb-6">
-        <button id="importButton" (click)="openFileUploadPopup()" class="bg-teal-600 text-white px-5 py-3 rounded-lg hover:bg-teal-700 transition-all duration-200">Importer</button>
-        <button id="exportButton" (click)="downloadEBS()" [disabled]="isExportLoading" class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2">
-            <svg *ngIf="isExportLoading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            <span>{{ isExportLoading ? 'Export en cours...' : 'Exporter' }}</span>
+    <div class="flex justify-between items-center mb-6">
+      <button (click)="openFilterModal()" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-3 rounded-lg">
+        <i class="fa-solid fa-sort"></i> Filtres avancés
+      </button>
+    
+      <div class="flex gap-4">
+        <button id="importButton" (click)="openFileUploadPopup()" class="bg-teal-600 text-white px-5 py-3 rounded-lg hover:bg-teal-700 transition-all duration-200">
+          Importer
         </button>
+        <button id="exportButton" (click)="downloadEBS()" [disabled]="isExportLoading" class="bg-blue-600 text-white px-5 py-3 rounded-lg hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2">
+          <svg *ngIf="isExportLoading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>{{ isExportLoading ? 'Export en cours...' : 'Exporter' }}</span>
+        </button>
+      </div>
     </div>
+    
 
     <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
         <div class="search-bar mb-4 flex items-center justify-between">
-            <!-- <input type="text" id="search" class="border border-gray-300 rounded-md p-2 w-64" [(ngModel)]="searchQuery" (input)="filterData()" placeholder="Entrez un code site..."/> -->
-           <button (click)="openFilterModal()" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
-                <i class="fas fa-filter mr-2"></i>Filtres avancés
-            </button> 
         </div>
         <table #ebsTable class="min-w-full border-collapse text-sm">
             <thead>
@@ -543,9 +547,9 @@
     </div>
     
     <div class="mt-6 flex justify-end space-x-3">
-      <!-- <button (click)="resetFilters()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+      <button (click)="resetFilters()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
         Réinitialiser
-      </button> -->
+      </button>
       <button (click)="closeFilterModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
         Annuler
       </button>

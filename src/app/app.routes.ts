@@ -17,8 +17,8 @@ export const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
-      { path: 'tableau-ebs', component: TableauEbsComponent, title: 'Tableau EBS', canActivate: [authGuard] },
-      { path: 'ajout-ebs', component: EbsFormComponent, title: 'Ajout EBS', canActivate: [authGuard] },
+      { path: 'tableau-ebs', component: TableauEbsComponent, data: { title: 'Tableau EBS' }, title: 'Tableau EBS', canActivate: [authGuard] },
+      { path: 'ajout-ebs', component: EbsFormComponent, data: { title: 'Ajout EBS' }, title: 'Ajout EBS', canActivate: [authGuard] },
       { path: 'site-validate', component: SiteCandidatComponent, title: 'Site valide', canActivate: [authGuard] },
       { path: 'detail_candidat/:id/:code_site', component: DetailSiteComponent, title: 'Detail Site', canActivate: [authGuard] },
     ]

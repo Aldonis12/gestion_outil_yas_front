@@ -37,8 +37,6 @@ export class TableauEbsComponent implements OnInit{
     this.loadTableau();
   }
 
-
-  
   loadTableau(page: number = this.currentPage): void {
     this.tebsService.getTabEBS(page, this.filters).subscribe(data => {
       this.filteredData = data.data;
@@ -128,6 +126,64 @@ filters: any = {
   disjoncteur_tete_dc_trans: '',
   nrj_after_project: ''
 };
+
+resetFilters(): void {
+  this.filters = {
+    phasetoa: '',
+    phaseyas: '',
+    daty: '',
+    version: '',
+    region: '',
+    codesite: '',
+    nomsite: '',
+    demandeur: '',
+    longitude: '',
+    latitude: '',
+    priorite: '',
+    zone: '',
+    typologie: '',
+    type_site: '',
+    infra: '',
+    potentiel_cohab: '',
+    scope: '',
+    // Section EBS RADIO
+    config_radio: '',
+    antenne_radio: '',
+    hba: '',
+    azimut_nm: '',
+    rru900_800: '',
+    rru1800: '',
+    rru2600: '',
+    rbs_existant: '',
+    action_rbs: '',
+    nombre_mat: '',
+    puissance_radio: '',
+    // Section EBS TRANS
+    design_trans: '',
+    config_trans: '',
+    frequence: '',
+    dimension_ant_trans: '',
+    azimut_site_main: '',
+    hma_site_main: '',
+    code_facing: '',
+    nom_facing: '',
+    azimut_site_facing: '',
+    hma_site_facing: '',
+    elevation_vsat: '',
+    azimut_vsat: '',
+    puissance_trans: '',
+    // Section EBS NRJ
+    commentaire_trans: '',
+    disjoncteur_trans: '',
+    disjoncteur_tete_dc: '',
+    disjoncteur_tete_dc_trans: '',
+    nrj_after_project: '',
+    commentaire_energie: ''
+  };
+
+  this.currentPage = 1;
+  this.loadTableau();
+}
 
   openFilterModal() {
     this.showFilterModal = true;

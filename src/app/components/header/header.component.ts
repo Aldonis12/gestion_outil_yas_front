@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,8 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  pageTitle: string = 'LAMBDA';
   isSidebarOpen: boolean = false;
   isUserMenuOpen: boolean = false;
   showSitesSubMenu: boolean = false;
@@ -27,10 +29,29 @@ onClickOutside(event: Event): void {
   userInitials = '';
   userData: any = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.updateTitle();
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateTitle();
+      });
     this.loadUserData();
+    
+  }
+
+  private updateTitle(): void {
+    let currentRoute = this.activatedRoute.root;
+    while (currentRoute.firstChild) {
+      currentRoute = currentRoute.firstChild;
+    }
+
+    const title = currentRoute.snapshot.data['title'];
+    console.log('Titre trouvé :', title);
+    this.pageTitle = title || 'LAMBDA';
   }
 
   loadUserData(): void {
