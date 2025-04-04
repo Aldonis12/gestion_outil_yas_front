@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { EbsFormData, EbsFormValues } from '../models/ebs';
+import { ApiResponseEbsForm, EbsFormData, EbsFormValues } from '../models/ebs';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -55,5 +55,9 @@ export class FormEbsService {
 
   exportEBS() {
     return this.http.get(`${this.apiUrl}/ebs/export`, { responseType: 'blob' });
+  }
+
+  getDetailInfoEBS(): Observable<ApiResponseEbsForm> {
+    return this.http.get<ApiResponseEbsForm>(`${this.apiUrl}/details_ebs`);
   }
 }

@@ -30,6 +30,30 @@ export interface SelectOption {
     Frequence: SelectOption[];
     Dimension_ant_trans: SelectOption[];
   }
+
+  export interface ApiResponseEbsForm {
+    type_projet: { nom: string }[];
+    region: { code: string }[];
+    demandeur: { nom: string }[];
+    priorite: { nom: string }[];
+    zone: { nom: string }[];
+    typologie: { nom: string }[];
+    type_site: { nom: string }[];
+    type_infra: { nom: string }[];
+    potentiel_cohab: { nom: string }[];
+    scope: { nom: string }[];
+    config_radio: { nom: string }[];
+    Antenne_radio: { nom: string }[];
+    RRU900_800: { nom: string }[];
+    RRU1800: { nom: string }[];
+    RRU2600: { nom: string }[];
+    RBS_Existant: { nom: string }[];
+    Action_RBS: { nom: string }[];
+    Design_trans: { nom: string }[];
+    Config_trans: { nom: string }[];
+    Frequence: { nom: string }[];
+    Dimension_ant_trans: { nom: string }[];
+  }
   
   // Interface pour les valeurs du formulaire
   export interface EbsFormValues {

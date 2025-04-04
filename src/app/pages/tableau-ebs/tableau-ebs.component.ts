@@ -15,9 +15,6 @@ import { ToastService } from '../../services/toast.service';
   styleUrl: './tableau-ebs.component.css'
 })
 export class TableauEbsComponent implements OnInit{
-
-  searchQuery: string = '';
-  information: any[] = [];
   filteredData: any[] = [];
   currentPage: number = 1;
   totalPages: number = 1;
@@ -40,23 +37,14 @@ export class TableauEbsComponent implements OnInit{
     this.loadTableau();
   }
 
+
+  
   loadTableau(page: number = this.currentPage): void {
-    this.tebsService.getTabEBS(page).subscribe(data => {
-      this.information = data.data;
+    this.tebsService.getTabEBS(page, this.filters).subscribe(data => {
+      this.filteredData = data.data;
       this.currentPage = data.current_page;
       this.totalPages = data.last_page;
-      this.filterData();
     });
-  }
-
-  filterData(): void {
-    if (this.searchQuery) {
-      this.filteredData = this.information.filter(item =>
-        item.code_site && item.code_site.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    } else {
-      this.filteredData = [...this.information];
-    }
   }
 
   changePage(page: number): void {
@@ -64,6 +52,125 @@ export class TableauEbsComponent implements OnInit{
       this.loadTableau(page);
     }
   }
+
+  showFilterModal: boolean = false;
+  
+  type_projet: string[] = [];
+  regions: string[] = [];
+  demandeur: string[] = [];
+  priorite: string[] = [];
+  zone: string[] = [];
+  typologie: string[] = [];
+  type_site: string[] = [];
+  type_infra: string[] = [];
+  potentiel_cohab: string[] = [];
+  scope: string[] = [];
+  config_radio: string[] = [];
+  Antenne_radio: string[] = [];
+  RRU900_800: string[] = [];
+  RRU1800: string[] = [];
+  RRU2600: string[] = [];
+  RBS_Existant: string[] = [];
+  Action_RBS: string[] = [];
+  Design_trans: string[] = [];
+  Config_trans: string[] = [];
+  Frequence: string[] = [];
+  Dimension_ant_trans: string[] = [];
+
+filters: any = {
+  type_projet: '',
+  phasetoa: '',
+  phaseyas: '',
+  daty: '',
+  version: '',
+  region: '',
+  codesite: '',
+  nomsite: '',
+  demandeur: '',
+  longitude: '',
+  latitude: '',
+  priorite: '',
+  zone: '',
+  typologie: '',
+  type_site: '',
+  infra: '',
+  potentiel_cohab: '',
+  scope: '',
+  // Section EBS RADIO
+  config_radio: '',
+  antenne_radio: '',
+  hba: '',
+  azimut_nm: '',
+  rru900_800: '',
+  rru1800: '',
+  rru2600: '',
+  rbs_existant: '',
+  action_rbs: '',
+  nombre_mat: '',
+  puissance_radio: '',
+  // Section EBS TRANS
+  design_trans: '',
+  config_trans: '',
+  frequence: '',
+  dimension_ant_trans: '',
+  azimut_site_main: '',
+  hma_site_main: '',
+  code_facing: '',
+  nom_facing: '',
+  azimut_site_facing: '',
+  hma_site_facing: '',
+  elevation_vsat: '',
+  azimut_vsat: '',
+  puissance_trans: '',
+  // Section EBS NRJ
+  disjoncteur_trans: '',
+  disjoncteur_tete_dc: '',
+  disjoncteur_tete_dc_trans: '',
+  nrj_after_project: ''
+};
+
+  openFilterModal() {
+    this.showFilterModal = true;
+    this.formEbs.getDetailInfoEBS().subscribe(data => {
+      this.type_projet = data.type_projet.map((item: any) => item.nom);    
+      this.regions = data.region.map((item: any) => item.code);    
+      this.demandeur = data.demandeur.map((item: any) => item.nom);
+      this.priorite = data.priorite.map((item: any) => item.nom);
+      this.zone = data.zone.map((item: any) => item.nom);
+      this.typologie = data.typologie.map((item: any) => item.nom);
+      this.type_site = data.type_site.map((item: any) => item.nom);
+      this.type_infra = data.type_infra.map((item: any) => item.nom);
+      this.potentiel_cohab = data.potentiel_cohab.map((item: any) => item.nom);
+      this.scope = data.scope.map((item: any) => item.nom);
+      this.config_radio = data.config_radio.map((item: any) => item.nom);
+      this.Antenne_radio = data.Antenne_radio.map((item: any) => item.nom);
+      this.RRU900_800 = data.RRU900_800.map((item: any) => item.nom);
+      this.RRU1800 = data.RRU1800.map((item: any) => item.nom);
+      this.RRU2600 = data.RRU2600.map((item: any) => item.nom);
+      this.RBS_Existant = data.RBS_Existant.map((item: any) => item.nom);
+      this.Action_RBS = data.Action_RBS.map((item: any) => item.nom);
+      this.Design_trans = data.Design_trans.map((item: any) => item.nom);
+      this.Config_trans = data.Config_trans.map((item: any) => item.nom);
+      this.Frequence = data.Frequence.map((item: any) => item.nom);
+      this.Dimension_ant_trans = data.Dimension_ant_trans.map((item: any) => item.nom);
+    });
+  }
+
+  closeFilterModal() {
+    this.showFilterModal = false;
+  }
+
+  applyFilters() {
+    console.log('Filtres appliqués:', this.filters);
+    this.currentPage = 1;
+    this.loadTableau();
+    this.closeFilterModal();
+  }
+
+
+
+
+
 
   isRadioVisible = true;
   isTransVisible = true;
@@ -221,4 +328,5 @@ export class TableauEbsComponent implements OnInit{
       }
     });
   }
+
 }

@@ -13,37 +13,24 @@
 
     <div class="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
         <div class="search-bar mb-4 flex items-center justify-between">
-            <input 
-                type="text" 
-                id="search" 
-                class="border border-gray-300 rounded-md p-2 w-64" 
-                [(ngModel)]="searchQuery" 
-                (input)="filterData()" 
-                placeholder="Entrez un code site..."/>
+            <!-- <input type="text" id="search" class="border border-gray-300 rounded-md p-2 w-64" [(ngModel)]="searchQuery" (input)="filterData()" placeholder="Entrez un code site..."/> -->
+           <button (click)="openFilterModal()" class="ml-4 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+                <i class="fas fa-filter mr-2"></i>Filtres avancés
+            </button> 
         </div>
         <table #ebsTable class="min-w-full border-collapse text-sm">
             <thead>
                 <tr class="text-white">
-                    <th colspan="17" class="py-3 px-4 border bg-teal-600">Information Site</th>
-                    
-                    <th [attr.colspan]="getRadioColspan()"
-                        [ngClass]="{'bg-blue-600': isRadioVisible, 'bg-blue-300': !isRadioVisible}"
-                        class="py-3 px-4 border toggle-column"
-                        (click)="toggleRadio()">
+                    <th colspan="17" class="py-3 px-4 border bg-teal-600">Information Site</th>            
+                    <th [attr.colspan]="getRadioColspan()" [ngClass]="{'bg-blue-600': isRadioVisible, 'bg-blue-300': !isRadioVisible}" class="py-3 px-4 border toggle-column" (click)="toggleRadio()">
                         <span>Radio</span>
                     </th>
                 
-                    <th [attr.colspan]="getTransColspan()"
-                        [ngClass]="{'bg-teal-700': isTransVisible, 'bg-teal-400': !isTransVisible}"
-                        class="py-3 px-4 border toggle-column"
-                        (click)="toggleTrans()">
+                    <th [attr.colspan]="getTransColspan()" [ngClass]="{'bg-teal-700': isTransVisible, 'bg-teal-400': !isTransVisible}" class="py-3 px-4 border toggle-column" (click)="toggleTrans()">
                         <span>Trans</span>
                     </th>
                 
-                    <th [attr.colspan]="getEnergieColspan()"
-                        [ngClass]="{'bg-blue-600': isEnergieVisible, 'bg-blue-300': !isEnergieVisible}"
-                        class="py-3 px-4 border toggle-column"
-                        (click)="toggleEnergie()">
+                    <th [attr.colspan]="getEnergieColspan()" [ngClass]="{'bg-blue-600': isEnergieVisible, 'bg-blue-300': !isEnergieVisible}" class="py-3 px-4 border toggle-column" (click)="toggleEnergie()">
                         <span>Énergie</span>
                     </th>
                 </tr>                
@@ -119,12 +106,8 @@
                     <td class="py-3 px-4 border">{{info.region}}</td>
                     <td class="fixed-td py-3 px-8 border">{{info.code_site}}</td>
                     <td class="py-3 px-12 border">{{info.nom_site}}</td>
-                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'Demandeur','select')">
-                        {{info.demandeur}}
-                      </td>
-                      <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'longitude','text')">
-                        {{info.longitude}}
-                      </td>
+                    <td class="py-3 px-4 border" (dblclick)="openPopup(info, 'information_site', 'Demandeur','select')">{{info.demandeur}}</td>
+                    <td class="py-3 px-8 border" (dblclick)="openPopup(info, 'information_site', 'longitude','text')">{{info.longitude}}</td>
                     <td class="py-3 px-8 border">{{info.latitude}}</td>
                     <td class="py-3 px-8 border">{{info.priorite}}</td>
                     <td class="py-3 px-8 border">{{info.zone}}</td>
@@ -177,21 +160,9 @@
         </table>
     </div>
     <div class="pagination">
-        <button (click)="changePage(currentPage - 1)" 
-                [disabled]="currentPage === 1" 
-                class="pagination-button">
-            « Précédent
-        </button>
-    
-        <span class="pagination-info">
-            <strong>{{ currentPage }}</strong> / <strong>{{ totalPages }}</strong>
-        </span>
-    
-        <button (click)="changePage(currentPage + 1)" 
-                [disabled]="currentPage === totalPages" 
-                class="pagination-button">
-            Suivant »
-        </button>
+        <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1" class="pagination-button">« Précédent</button>
+        <span class="pagination-info"><strong>{{ currentPage }}</strong> / <strong>{{ totalPages }}</strong></span> 
+        <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages" class="pagination-button">Suivant »</button>
     </div>
 
     <div *ngIf="isPopupVisible" id="edit-popup" class="fixed inset-0 bg-white-300 bg-opacity-50 flex justify-center items-center z-50">
@@ -200,25 +171,387 @@
       
           <div *ngIf="currentBaseSelect && currentOptions.length > 0" class="mb-4">
             <select id="edit-select" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option *ngFor="let option of currentOptions" [value]="option.nom">
-                  {{ option.nom }}
-                </option>
+                <option *ngFor="let option of currentOptions" [value]="option.nom">{{ option.nom }}</option>
               </select>
           </div>
       
           <div *ngIf="isValueInput" class="mb-4">
             <input type="text" id="edit-input" [(ngModel)]="currentInputValue" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-      
-          <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2">
-            {{ errorMessage }}
-          </div>
-      
+          </div>      
+          <div *ngIf="errorMessage" class="text-red-500 text-sm mt-2">{{ errorMessage }}</div>     
           <div class="popup-actions flex justify-between mt-4">
             <button (click)="closePopup()" class="bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-500 transition">Fermer</button>
             <button (click)="saveChanges()" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">Sauvegarder</button>
           </div>
         </div>
+    </div>  
+</div>
+
+<div *ngIf="showFilterModal" class="fixed inset-0 flex items-center justify-center bg-opacity-30 backdrop-blur-sm z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-7xl max-h-[90vh] overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h3 class="text-lg font-semibold">Filtres avancés</h3>
+      <button (click)="closeFilterModal()" class="text-gray-500 hover:text-gray-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <!-- Section 1: Informations sites -->
+      <div class="space-y-4">
+        <h4 class="font-medium text-gray-700 border-b pb-2">Informations sites</h4>
+        
+        <div>
+          <label for="type_projet" class="block text-sm font-medium text-gray-700">Type Projet</label>
+          <select id="type_projet" [(ngModel)]="filters.type_projet" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous les projets</option>
+            <option *ngFor="let item of type_projet" [value]="item">{{item}}</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="phasetoa" class="block text-sm font-medium text-gray-700">Phase TOA</label>
+          <input type="text" id="phasetoa" [(ngModel)]="filters.phasetoa" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="phaseyas" class="block text-sm font-medium text-gray-700">Phase YAS</label>
+          <input type="text" id="phaseyas" [(ngModel)]="filters.phaseyas" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="daty" class="block text-sm font-medium text-gray-700">Date</label>
+          <input type="date" id="daty" [(ngModel)]="filters.daty" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="version" class="block text-sm font-medium text-gray-700">Version</label>
+          <input type="text" id="version" [(ngModel)]="filters.version" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="region" class="block text-sm font-medium text-gray-700">Région</label>
+          <select id="region" [(ngModel)]="filters.region" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les régions</option>
+            <option *ngFor="let item of regions" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="codesite" class="block text-sm font-medium text-gray-700">Code Site</label>
+          <input type="text" id="codesite" [(ngModel)]="filters.codesite" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="nomsite" class="block text-sm font-medium text-gray-700">Nom Site</label>
+          <input type="text" id="nomsite" [(ngModel)]="filters.nomsite" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="demandeur" class="block text-sm font-medium text-gray-700">Demandeur</label>
+          <select id="demandeur" [(ngModel)]="filters.demandeur" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous les demandeurs</option>
+            <option *ngFor="let item of demandeur" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="longitude" class="block text-sm font-medium text-gray-700">Longitude</label>
+          <input type="text" id="longitude" [(ngModel)]="filters.longitude" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="latitude" class="block text-sm font-medium text-gray-700">Latitude</label>
+          <input type="text" id="latitude" [(ngModel)]="filters.latitude" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="priorite" class="block text-sm font-medium text-gray-700">Priorité</label>
+          <select id="priorite" [(ngModel)]="filters.priorite" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les priorités</option>
+            <option *ngFor="let item of priorite" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="zone" class="block text-sm font-medium text-gray-700">Zone</label>
+          <select id="zone" [(ngModel)]="filters.zone" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les zones</option>
+            <option *ngFor="let item of zone" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="typologie" class="block text-sm font-medium text-gray-700">Typologie</label>
+          <select id="typologie" [(ngModel)]="filters.typologie" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les typologies</option>
+            <option *ngFor="let item of typologie" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="type_site" class="block text-sm font-medium text-gray-700">Type de site</label>
+          <select id="type_site" [(ngModel)]="filters.type_site" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous les types</option>
+            <option *ngFor="let item of type_site" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="infra" class="block text-sm font-medium text-gray-700">Infrastructure</label>
+          <select id="infra" [(ngModel)]="filters.infra" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les infrastructures</option>
+            <option *ngFor="let item of type_infra" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="potentiel_cohab" class="block text-sm font-medium text-gray-700">Potentiel cohabitation</label>
+          <select id="potentiel_cohab" [(ngModel)]="filters.potentiel_cohab" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of potentiel_cohab" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="scope" class="block text-sm font-medium text-gray-700">Scope</label>
+          <select id="scope" [(ngModel)]="filters.scope" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of scope" [value]="item">{{item}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section 2: EBS RADIO -->
+      <div class="space-y-4">
+        <h4 class="font-medium text-gray-700 border-b pb-2">EBS RADIO</h4>
+        
+        <div>
+          <label for="config_radio" class="block text-sm font-medium text-gray-700">Configuration radio</label>
+          <select id="config_radio" [(ngModel)]="filters.config_radio" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les configurations</option>
+            <option *ngFor="let item of config_radio" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="antenne_radio" class="block text-sm font-medium text-gray-700">Antenne radio</label>
+          <select id="antenne_radio" [(ngModel)]="filters.antenne_radio" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les antennes</option>
+            <option *ngFor="let item of Antenne_radio" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="hba" class="block text-sm font-medium text-gray-700">HBA</label>
+          <input type="text" id="hba" [(ngModel)]="filters.hba" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="azimut_nm" class="block text-sm font-medium text-gray-700">Azimut NM</label>
+          <input type="text" id="azimut_nm" [(ngModel)]="filters.azimut_nm" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="rru900_800" class="block text-sm font-medium text-gray-700">RRU 900/800</label>
+          <select id="rru900_800" [(ngModel)]="filters.rru900_800" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of RRU900_800" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="rru1800" class="block text-sm font-medium text-gray-700">RRU 1800</label>
+          <select id="rru1800" [(ngModel)]="filters.rru1800" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of RRU1800" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="rru2600" class="block text-sm font-medium text-gray-700">RRU 2600</label>
+          <select id="rru2600" [(ngModel)]="filters.rru2600" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of RRU2600" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="rbs_existant" class="block text-sm font-medium text-gray-700">RBS Existant</label>
+          <select id="rbs_existant" [(ngModel)]="filters.rbs_existant" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Tous</option>
+            <option *ngFor="let item of RBS_Existant" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="action_rbs" class="block text-sm font-medium text-gray-700">Action RBS</label>
+          <select id="action_rbs" [(ngModel)]="filters.action_rbs" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+            <option value="">Toutes les actions</option>
+            <option *ngFor="let item of Action_RBS" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="nombre_mat" class="block text-sm font-medium text-gray-700">Nombre MAT</label>
+          <input type="text" id="nombre_mat" [(ngModel)]="filters.nombre_mat" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="puissance_radio" class="block text-sm font-medium text-gray-700">Puissance radio</label>
+          <input type="text" id="puissance_radio" [(ngModel)]="filters.puissance_radio" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+      </div>
+
+      <!-- Section 3: EBS TRANS et EBS NRJ -->
+      <div class="space-y-4">
+        <!-- Sous-section EBS TRANS -->
+        <div class="space-y-4">
+          <h4 class="font-medium text-gray-700 border-b pb-2">EBS TRANS</h4>
+          
+          <div>
+            <label for="design_trans" class="block text-sm font-medium text-gray-700">Design trans</label>
+            <select id="design_trans" [(ngModel)]="filters.design_trans" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="">Tous</option>
+              <option *ngFor="let item of Design_trans" [value]="item">{{item}}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="config_trans" class="block text-sm font-medium text-gray-700">Config trans</label>
+            <select id="config_trans" [(ngModel)]="filters.config_trans" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="">Toutes les configurations</option>
+              <option *ngFor="let item of Config_trans" [value]="item">{{item}}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="frequence" class="block text-sm font-medium text-gray-700">Fréquence</label>
+            <select id="frequence" [(ngModel)]="filters.frequence" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="">Toutes les fréquences</option>
+              <option *ngFor="let item of Frequence" [value]="item">{{item}}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="dimension_ant_trans" class="block text-sm font-medium text-gray-700">Dimension ant trans</label>
+            <select id="dimension_ant_trans" [(ngModel)]="filters.dimension_ant_trans" class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+              <option value="">Toutes les dimensions</option>
+              <option *ngFor="let item of Dimension_ant_trans" [value]="item">{{item}}</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="azimut_site_main" class="block text-sm font-medium text-gray-700">Azimut site main</label>
+            <input type="text" id="azimut_site_main" [(ngModel)]="filters.azimut_site_main" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="hma_site_main" class="block text-sm font-medium text-gray-700">HMA site main</label>
+            <input type="text" id="hma_site_main" [(ngModel)]="filters.hma_site_main" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="code_facing" class="block text-sm font-medium text-gray-700">Code facing</label>
+            <input type="text" id="code_facing" [(ngModel)]="filters.code_facing" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="nom_facing" class="block text-sm font-medium text-gray-700">Nom facing</label>
+            <input type="text" id="nom_facing" [(ngModel)]="filters.nom_facing" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="azimut_site_facing" class="block text-sm font-medium text-gray-700">Azimut site facing</label>
+            <input type="text" id="azimut_site_facing" [(ngModel)]="filters.azimut_site_facing" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="hma_site_facing" class="block text-sm font-medium text-gray-700">HMA site facing</label>
+            <input type="text" id="hma_site_facing" [(ngModel)]="filters.hma_site_facing" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="elevation_vsat" class="block text-sm font-medium text-gray-700">Elevation VSAT</label>
+            <input type="text" id="elevation_vsat" [(ngModel)]="filters.elevation_vsat" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="azimut_vsat" class="block text-sm font-medium text-gray-700">Azimut VSAT</label>
+            <input type="text" id="azimut_vsat" [(ngModel)]="filters.azimut_vsat" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+          
+          <div>
+            <label for="puissance_trans" class="block text-sm font-medium text-gray-700">Puissance trans</label>
+            <input type="text" id="puissance_trans" [(ngModel)]="filters.puissance_trans" 
+                   class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+          </div>
+        </div>
+
+        
       </div>
       
+      <!-- Sous-section EBS NRJ -->
+      <div class="space-y-4">
+        <h4 class="font-medium text-gray-700 border-b pb-2">EBS NRJ</h4>
+        
+        <div>
+          <label for="disjoncteur_trans" class="block text-sm font-medium text-gray-700">Disjoncteur trans</label>
+          <input type="text" id="disjoncteur_trans" [(ngModel)]="filters.disjoncteur_trans" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="disjoncteur_tete_dc" class="block text-sm font-medium text-gray-700">Disjoncteur tête DC</label>
+          <input type="text" id="disjoncteur_tete_dc" [(ngModel)]="filters.disjoncteur_tete_dc" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="disjoncteur_tete_dc_trans" class="block text-sm font-medium text-gray-700">Disjoncteur tête DC trans</label>
+          <input type="text" id="disjoncteur_tete_dc_trans" [(ngModel)]="filters.disjoncteur_tete_dc_trans" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+        <div>
+          <label for="nrj_after_project" class="block text-sm font-medium text-gray-700">NRJ after project</label>
+          <input type="text" id="nrj_after_project" [(ngModel)]="filters.nrj_after_project" 
+                 class="mt-1 block w-full border border-gray-300 rounded-md p-2">
+        </div>
+        
+      </div>
+    </div>
+    
+    <div class="mt-6 flex justify-end space-x-3">
+      <!-- <button (click)="resetFilters()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+        Réinitialiser
+      </button> -->
+      <button (click)="closeFilterModal()" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+        Annuler
+      </button>
+      <button (click)="applyFilters()" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+        Appliquer les filtres
+      </button>
+    </div>
+  </div>
 </div>
