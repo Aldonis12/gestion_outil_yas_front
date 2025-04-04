@@ -32,26 +32,31 @@ onClickOutside(event: Event): void {
   constructor(private authService: AuthService, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.updateTitle();
+    this.setTitle();
 
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(() => {
-        this.updateTitle();
+        this.setTitle();
       });
     this.loadUserData();
-    
   }
 
-  private updateTitle(): void {
+  private setTitle(): void {
     let currentRoute = this.activatedRoute.root;
+
     while (currentRoute.firstChild) {
       currentRoute = currentRoute.firstChild;
     }
 
-    const title = currentRoute.snapshot.data['title'];
-    console.log('Titre trouvé :', title);
-    this.pageTitle = title || 'LAMBDA';
+    const dataTitle = currentRoute.snapshot.data['title'];
+    const codeSite = currentRoute.snapshot.params['code_site'];
+
+    if (dataTitle && dataTitle.includes(':code_site') && codeSite) {
+      this.pageTitle = dataTitle.replace(':code_site', codeSite);
+    } else {
+      this.pageTitle = dataTitle || 'LAMBDA';
+    }
   }
 
   loadUserData(): void {
